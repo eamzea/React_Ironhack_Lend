@@ -1,3 +1,52 @@
 body {
   margin: 0;
 }
+
+.navbarP {
+  height: 10vh;
+  margin: 0;
+  padding: 0 !important;
+  height: 10vh;
+  position: fixed;
+  top: 0;
+}
+
+.logo-nav {
+  width: 50px;
+}
+
+.home {
+  background-image: url("/images/home-bg.png");
+  background-size: cover;
+  margin-top: 9vh;
+  height: 100vh;
+}
+
+.search-row {
+  height: 90vh;
+}
+
+.search-col {
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-box {
+  width: 90%;
+}
+
+.footer {
+  background-color: #343a40;
+  padding: 25px;
+}
+
+.logo-footer {
+  width: 100px;
+}
+
+.text-footer {
+  color: white;
+  text-align: center;
+}

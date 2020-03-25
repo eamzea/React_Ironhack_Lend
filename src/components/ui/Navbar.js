@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Button,
@@ -12,24 +12,37 @@ import {
 } from "react-bootstrap";
 
 const NavbarP = () => {
+  const [searchState, updateSearchState] = useState("");
+
+  const handleChange = e => {
+    const { value } = e.target;
+    updateSearchState(value);
+  };
+
   return (
     <Container fluid className="navbarP">
       <Navbar bg="light" expand="lg">
         <Navbar.Brand>
           <Link to="/">
-            <Image src="images/presta-logo.svg" className="logo-nav" />
+            <Image src="../images/presta-logo.svg" className="logo-nav" />
           </Link>
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse
-          id="basic-navbar-nav"
-          className="justify-content-between"
+        <Form
+          style={{ display: "flex", flexDirection: "row", flexFlow: "no-wrap" }}
         >
-          <Form inline>
-            <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+          <FormControl
+            type="text"
+            placeholder="Search"
+            className="mr-sm-2"
+            onChange={e => handleChange(e)}
+          />
+          <Link to={`/results/${searchState}`}>
             <Button variant="dark">Search</Button>
-          </Form>
-          <Nav>
+          </Link>
+        </Form>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
+          <Nav style={{ marginRight: "100px" }}>
             <Nav.Link href="/">Home</Nav.Link>
             <NavDropdown title="Sign In" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>

@@ -1,15 +1,20 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   Container,
   Row,
   Col,
   InputGroup,
   FormControl,
-  Button
+  Button,
+  Card,
+  CardColumns
 } from "react-bootstrap";
+import Result from "./ui/Result";
 
-const Home = props => {
+const Results = props => {
+  const { stuff } = useParams();
+
   const [searchState, updateSearchState] = useState("");
 
   const handleChange = e => {
@@ -19,17 +24,17 @@ const Home = props => {
 
   return (
     <Container className="home" fluid>
-      <Row className="search-row justify-content-center align-items-center">
-        <Col xs={11} md={9} className="search-col">
-          <p>Encuentra eso que necesitas el día de hoy</p>
-          <div className="form-box">
-            <InputGroup className="mb-3">
+      <Row className="justify-content-center align-items-center">
+        <Col xs={11} className="results-col">
+          <p>Busca de nuevo</p>
+          <div className="form-results-box">
+            <InputGroup>
               <FormControl
                 placeholder="¿Qué estás buscando?"
                 aria-label="¿Qué estás buscando?"
                 aria-describedby="basic-addon2"
-                onChange={e => handleChange(e)}
                 name="search"
+                onChange={e => handleChange(e)}
               />
               <InputGroup.Append>
                 <Link to={`/results/${searchState}`}>
@@ -40,8 +45,13 @@ const Home = props => {
           </div>
         </Col>
       </Row>
+      {/* <Row className="justify-content-around align-items-center"> */}
+      <CardColumns>
+        <Result />
+      </CardColumns>
+      {/* </Row> */}
     </Container>
   );
 };
 
-export default Home;
+export default Results;

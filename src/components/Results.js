@@ -45,11 +45,9 @@ const Results = props => {
           </div>
         </Col>
       </Row>
-      {/* <Row className="justify-content-around align-items-center"> */}
       <CardColumns>
         <Result />
       </CardColumns>
-      {/* </Row> */}
     </Container>
   );
 };

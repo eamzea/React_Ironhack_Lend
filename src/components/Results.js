@@ -6,9 +6,7 @@ import {
   Col,
   InputGroup,
   FormControl,
-  Button,
-  Card,
-  CardColumns
+  Button
 } from "react-bootstrap";
 import Result from "./ui/Result";
 
@@ -22,8 +20,16 @@ const Results = props => {
     updateSearchState(value);
   };
 
+  const result = {
+    name: "Videojuego",
+    img:
+      "https://static.emulatorgames.net/images/gameboy-advance/pokemon-fire-red-version-v1-1.jpg",
+    description:
+      "Pokémon Edición Rojo Fuego y Edición Verde Hoja, conocidos en Japón como Pocket Monsters Fire Red & Leaf Green, son dos videojuegos lanzados para la consola portátil Game Boy Advance de Nintendo en octubre de 2004, siendo remakes de los videojuegos Pokémon Rojo y Azul, lanzados en 1996"
+  };
+
   return (
-    <Container className="home" fluid>
+    <Container className="result-page" fluid>
       <Row className="justify-content-center align-items-center">
         <Col xs={11} className="results-col">
           <p>Busca de nuevo</p>
@@ -45,9 +51,23 @@ const Results = props => {
           </div>
         </Col>
       </Row>
-      <CardColumns>
-        <Result />
-      </CardColumns>
+      <Row className="justify-content-around align-items-center">
+        <Col md={3} className="m-3 ">
+          <Result result={result} />
+        </Col>
+        <Col md={3} className="m-3 ">
+          <Result result={result} />
+        </Col>
+        <Col md={3} className="m-3 ">
+          <Result result={result} />
+        </Col>
+        <Col md={3} className="m-3 ">
+          <Result result={result} />
+        </Col>
+        <Col md={3} className="m-3 ">
+          <Result result={result} />
+        </Col>
+      </Row>
     </Container>
   );
 };

@@ -1,16 +1,13 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 
-const Result = props => {
+const Result = ({ result }) => {
   return (
-    <Card>
-      <Card.Img variant="top" src="holder.js/100px160" />
+    <Card border={"light"}>
+      <Card.Img variant="top" src={result.img} style={{ width: 50 }} />
       <Card.Body>
-        <Card.Title>Card title that wraps to a new line</Card.Title>
-        <Card.Text>
-          This is a longer card with supporting text below as a natural lead-in
-          to additional content. This content is a little bit longer.
-        </Card.Text>
+        <Card.Title>{result.name}</Card.Title>
+        <Card.Text>{result.description}</Card.Text>
       </Card.Body>
     </Card>
   );

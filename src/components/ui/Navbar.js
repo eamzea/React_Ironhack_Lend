@@ -43,17 +43,13 @@ const NavbarP = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
           <Nav style={{ marginRight: "100px" }}>
-            <Nav.Link href="/">Home</Nav.Link>
-            <NavDropdown title="Sign In" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+            <Nav.Link href="/">Inicio</Nav.Link>
+            <NavDropdown title="Únete" id="basic-nav-dropdown">
+              <NavDropdown.Item href="/log-in">Inicia Sesión</NavDropdown.Item>
+              <NavDropdown.Item href="/register">Regístrate</NavDropdown.Item>
+              <NavDropdown.Item href="/profile">Perfil</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
+              <NavDropdown.Item href="/log-out">Salir</NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>

@@ -3,7 +3,8 @@ import { Switch, Route } from "react-router-dom";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import NavbarP from "./components/ui/Navbar";
-import Footer from "./components/ui/Footer";
+import FooterP from "./components/ui/Footer";
+import RegisterP from "./components/Register";
 import Home from "./components/Home";
 import Results from "./components/Results";
 
@@ -13,10 +14,11 @@ function App() {
       <NavbarP />
       <Switch>
         <Route exact path="/" component={Home} />
+        <Route path="/register" component={RegisterP} />
         <Route path="/results" component={Results} />
         <Route path="/results/:stuff" component={Results} />
       </Switch>
-      <Footer />
+      <FooterP />
     </>
   );
 }

@@ -1,11 +1,11 @@
 import React from "react";
 import { Container, Row, Col, Image } from "react-bootstrap";
 
-const Footer = () => {
+const FooterP = () => {
   return (
     <Container fluid className="footer">
       <Row className="justify-content-around">
-        <Image src="images/presta-logo.svg" className="logo-footer" />
+        <Image src="/images/presta-logo.svg" className="logo-footer" />
       </Row>
       <Row className="justify-content-around">
         <Col>
@@ -19,4 +19,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default FooterP;

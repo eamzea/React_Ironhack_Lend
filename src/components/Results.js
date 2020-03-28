@@ -32,7 +32,7 @@ const Results = props => {
     <Container className="result-page" fluid>
       <Row className="justify-content-center align-items-center">
         <Col xs={11} className="results-col">
-          <p>Busca de nuevo</p>
+          <p className="titles">Busca de nuevo</p>
           <div className="form-results-box">
             <InputGroup>
               <FormControl
@@ -41,10 +41,13 @@ const Results = props => {
                 aria-describedby="basic-addon2"
                 name="search"
                 onChange={e => handleChange(e)}
+                className="text"
               />
               <InputGroup.Append>
                 <Link to={`/results/${searchState}`}>
-                  <Button variant="dark">Buscar</Button>
+                  <Button variant="dark" className="text">
+                    Buscar
+                  </Button>
                 </Link>
               </InputGroup.Append>
             </InputGroup>

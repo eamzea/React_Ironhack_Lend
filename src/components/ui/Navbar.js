@@ -35,21 +35,34 @@ const NavbarP = () => {
             placeholder="Search"
             className="mr-sm-2"
             onChange={e => handleChange(e)}
+            className="text"
           />
           <Link to={`/results/${searchState}`}>
-            <Button variant="dark">Search</Button>
+            <Button variant="dark" className="text">
+              Search
+            </Button>
           </Link>
         </Form>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
           <Nav style={{ marginRight: "100px" }}>
-            <Nav.Link href="/">Inicio</Nav.Link>
-            <NavDropdown title="Únete" id="basic-nav-dropdown">
-              <NavDropdown.Item href="/log-in">Inicia Sesión</NavDropdown.Item>
-              <NavDropdown.Item href="/register">Regístrate</NavDropdown.Item>
-              <NavDropdown.Item href="/profile">Perfil</NavDropdown.Item>
+            <Nav.Link href="/" className="text">
+              Inicio
+            </Nav.Link>
+            <NavDropdown title="Únete" id="basic-nav-dropdown" className="text">
+              <NavDropdown.Item href="/log-in" className="text">
+                Inicia Sesión
+              </NavDropdown.Item>
+              <NavDropdown.Item href="/register" className="text">
+                Regístrate
+              </NavDropdown.Item>
+              <NavDropdown.Item href="/profile" className="text">
+                Perfil
+              </NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href="/log-out">Salir</NavDropdown.Item>
+              <NavDropdown.Item href="/log-out" className="text">
+                Salir
+              </NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>

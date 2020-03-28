@@ -7,6 +7,9 @@ import FooterP from "./components/ui/Footer";
 import RegisterP from "./components/Register";
 import Home from "./components/Home";
 import Results from "./components/Results";
+import SignUp from "./components/SignUp";
+import Profile from "./components/Profile";
+import EditProfile from "./components/EditProfile";
 
 function App() {
   return (
@@ -15,6 +18,9 @@ function App() {
       <Switch>
         <Route exact path="/" component={Home} />
         <Route path="/register" component={RegisterP} />
+        <Route path="/signup" component={SignUp} />
+        <Route path="/edit-profile" component={EditProfile} />
+        <Route path="/profile" component={Profile} />
         <Route path="/results" component={Results} />
         <Route path="/results/:stuff" component={Results} />
       </Switch>

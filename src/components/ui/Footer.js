@@ -9,10 +9,10 @@ const FooterP = () => {
       </Row>
       <Row className="justify-content-around">
         <Col>
-          <p className="text-footer">Términos y condiciones</p>
+          <p className="text-footer text">Términos y condiciones</p>
         </Col>
         <Col>
-          <p className="text-footer">Aviso de Privacidad</p>
+          <p className="text-footer text">Aviso de Privacidad</p>
         </Col>
       </Row>
     </Container>

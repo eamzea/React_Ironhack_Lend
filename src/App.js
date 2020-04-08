@@ -20,7 +20,7 @@ function App() {
         <Route path="/register" component={RegisterP} />
         <Route path="/signup" component={SignUp} />
         <Route path="/edit-profile" component={EditProfile} />
-        <Route path="/profile" component={Profile} />
+        <Route path="/profile/:username" component={Profile} />
         <Route path="/results" component={Results} />
         <Route path="/results/:stuff" component={Results} />
       </Switch>

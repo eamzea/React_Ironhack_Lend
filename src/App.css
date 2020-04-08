@@ -134,6 +134,7 @@ body {
   background-color: #ffffff;
   border-radius: 25px;
   padding: 25px;
+  margin-left: 20%;
 }
 
 @media (max-width: 768px) {
@@ -208,9 +209,16 @@ body {
   background-color: #ffffff;
   border-radius: 25px;
   padding: 25px;
+  margin-left: 20%;
 }
 
-@media (max-width: 768px) {
+.edit-profile-modal {
+  object-fit: cover;
+  height: 150px;
+  width: 150px;
+}
+
+@media (max-width: 992px) {
   .edit-profile-box {
     margin: 0 auto;
     background-color: rgba(255, 255, 255, 0.75);

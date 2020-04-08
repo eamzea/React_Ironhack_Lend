@@ -1,56 +1,98 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import LendService from "../services/lendService";
 import { Container, Row, Col, Button, Image } from "react-bootstrap";
 import { makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     "& > *": {
-      margin: theme.spacing(1)
-    }
+      margin: theme.spacing(1),
+    },
   },
   medium: {
     width: theme.spacing(10),
-    height: theme.spacing(10)
+    height: theme.spacing(10),
   },
   large: {
     width: theme.spacing(20),
-    height: theme.spacing(20)
-  }
+    height: theme.spacing(20),
+  },
 }));
 
-const Profile = props => {
+const Profile = (props) => {
+  const { username } = useParams();
+
   const classes = useStyles();
 
-  const [searchState, updateSearchState] = useState("");
+  const [userInfoState, updateUserInfoState] = useState({
+    name: "",
+    username: "",
+    email: "",
+    phone: "",
+    stuffs: [],
+  });
 
-  const handleChange = e => {
-    const { value } = e.target;
-    updateSearchState(value);
+  const getProfileInfo = () => {
+    const lendService = new LendService();
+
+    lendService.getProfile(username).then((res) => {
+      updateUserInfoState(res.data);
+    });
   };
+
+  useEffect(() => {
+    getProfileInfo();
+  }, []);
 
   return (
     <Container fluid className="profile-page">
       <Row className="justify-content-center align-items-center">
         <Col xs={11} className="profile-row mt-5">
-          <Row className="profile-box-row p-md-5 p-3">
+          {!userInfoState.validatedEmail && (
+            <Row className="profile-box-row p-2">
+              <div class="alert alert-danger" role="alert">
+                <p className="titles m-0 h3">
+                  Tu correo aún no ha sido validado
+                </p>
+              </div>
+            </Row>
+          )}
+          <Row className="profile-box-row p-2">
+            <p className="text-white h4 titles m-0">
+              Miembro desde : {userInfoState.since}
+            </p>
+          </Row>
+          <Row className="profile-box-row px-md-5 px-3 py-3">
             <Col
               xs={11}
-              md={3}
+              md={2}
               className="d-flex justify-content-center align-items-center"
             >
               <Avatar className={classes.large}>H</Avatar>
             </Col>
-            <Col xs={11} md={3}>
-              <p className="text-white h2 titles">Edgar Mora</p>
-              <p className="text-white h4 text">Correo : m.zea@live.com.mx</p>
-              <p className="text-white h4 text">Celular : 5535057614</p>
+            <Col xs={11} md={4}>
+              <p className="text-white h2 titles">{userInfoState.name}</p>
+              <p className="text-white h3 titles">{userInfoState.username}</p>
+              <p className="text-white h4 text">
+                Correo : {userInfoState.email}
+              </p>
+              <p className="text-white h4 text">
+                Celular :{" "}
+                {userInfoState.phone
+                  ? userInfoState.phone
+                  : "Aún no tienes un número registrado"}
+              </p>
             </Col>
-            <Col xs={11} md={3}>
-              <p className="text-white my-2 text">Artículos totales : 10</p>
-              <p className="text-white my-2 text">Transacciones totales : 10</p>
+            <Col xs={11} md={4}>
+              <p className="text-white h5 my-2 text">
+                Artículos totales : {userInfoState.stuffs.length}
+              </p>
+              <p className="text-white h5 my-2 text">
+                Transacciones totales : 10
+              </p>
             </Col>
           </Row>
           <Row className="profile-box-row p-3">

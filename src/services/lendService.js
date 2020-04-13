@@ -26,7 +26,7 @@ class LendService {
 
   logIn = async (user) => {
     const response = await this.service.post("/login", user);
-    return response.data;
+    return response;
   };
 
   validateUser = async (username) => {

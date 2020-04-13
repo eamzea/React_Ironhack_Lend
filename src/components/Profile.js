@@ -35,11 +35,14 @@ const Profile = (props) => {
     stuffs: [],
   });
 
+  const [ownerState, updateOwnerState] = useState();
+
   const getProfileInfo = () => {
     const lendService = new LendService();
 
     lendService.getProfile(username).then((res) => {
-      updateUserInfoState(res.data);
+      updateUserInfoState(res.data.profile);
+      updateOwnerState(res.data.owner);
     });
   };
 
@@ -51,7 +54,7 @@ const Profile = (props) => {
     <Container fluid className="profile-page">
       <Row className="justify-content-center align-items-center">
         <Col xs={11} className="profile-row mt-5">
-          {!userInfoState.validatedEmail && (
+          {ownerState && !userInfoState.validatedEmail && (
             <Row className="profile-box-row p-2">
               <div class="alert alert-danger" role="alert">
                 <p className="titles m-0 h3">
@@ -95,19 +98,35 @@ const Profile = (props) => {
               </p>
             </Col>
           </Row>
-          <Row className="profile-box-row p-3">
-            <Col
-              xs={11}
-              md={3}
-              className="d-flex justify-content-center align-items-center"
-            >
-              <Link to="/edit-profile">
-                <Button variant="dark" size="lg">
-                  Editar perfil
-                </Button>
-              </Link>
-            </Col>
-          </Row>
+          {ownerState ? (
+            <Row className="profile-box-row p-3">
+              <Col
+                xs={11}
+                md={3}
+                className="d-flex justify-content-center align-items-center"
+              >
+                <Link to="/edit-profile">
+                  <Button variant="dark" size="lg">
+                    Editar perfil
+                  </Button>
+                </Link>
+              </Col>
+            </Row>
+          ) : (
+            <Row className="profile-box-row p-3">
+              <Col
+                xs={11}
+                md={3}
+                className="d-flex justify-content-center align-items-center"
+              >
+                <Link to="/contact">
+                  <Button variant="dark" size="lg">
+                    Contactar
+                  </Button>
+                </Link>
+              </Col>
+            </Row>
+          )}
         </Col>
         <Col xs={11} className="profile-row my-3">
           <Row className="profile-box-row p-3">
@@ -126,11 +145,13 @@ const Profile = (props) => {
                 Estatus :{" "}
                 <span className="bg-success rounded p-3">Disponible</span>
               </p>
-              <Link to="/add-new">
-                <Button variant="danger" size="lg">
-                  Quitar
-                </Button>
-              </Link>
+              {ownerState && (
+                <Link to="/add-new">
+                  <Button variant="danger" size="lg">
+                    Quitar
+                  </Button>
+                </Link>
+              )}
             </Col>
             <Col xs={11} className="profile-list py-3">
               <Image
@@ -144,22 +165,26 @@ const Profile = (props) => {
                 Estatus :{" "}
                 <span className="bg-danger rounded p-3">Préstamo</span>
               </p>
-              <Link to="/add-new">
-                <Button variant="danger" size="lg">
-                  Quitar
-                </Button>
-              </Link>
+              {ownerState && (
+                <Link to="/add-new">
+                  <Button variant="danger" size="lg">
+                    Quitar
+                  </Button>
+                </Link>
+              )}
             </Col>
-            <Col
-              xs={11}
-              className="d-flex justify-content-around align-items-center py-3"
-            >
-              <Link to="/add-new">
-                <Button variant="dark" size="lg">
-                  Agrega un nuevo artículo
-                </Button>
-              </Link>
-            </Col>
+            {ownerState && (
+              <Col
+                xs={11}
+                className="d-flex justify-content-around align-items-center py-3"
+              >
+                <Link to="/add-new">
+                  <Button variant="dark" size="lg">
+                    Agrega un nuevo artículo
+                  </Button>
+                </Link>
+              </Col>
+            )}
           </Row>
         </Col>
         <Col xs={11} className="profile-row my-3">
@@ -181,11 +206,13 @@ const Profile = (props) => {
                 Estatus :{" "}
                 <span className="bg-success rounded p-3">Devuelto</span>
               </p>
-              <Link to="/add-new">
-                <Button variant="success" size="lg">
-                  Solicitar
-                </Button>
-              </Link>
+              {ownerState && (
+                <Link to="/add-new">
+                  <Button variant="success" size="lg">
+                    Solicitar
+                  </Button>
+                </Link>
+              )}
             </Col>
             <Col xs={11} className="profile-list py-3">
               <Image
@@ -199,11 +226,13 @@ const Profile = (props) => {
                 Estatus :{" "}
                 <span className="bg-danger rounded p-3">Préstamo</span>
               </p>
-              <Link to="/add-new">
-                <Button variant="success" size="lg">
-                  Devolver
-                </Button>
-              </Link>
+              {ownerState && (
+                <Link to="/add-new">
+                  <Button variant="success" size="lg">
+                    Devolver
+                  </Button>
+                </Link>
+              )}
             </Col>
             <Col
               xs={11}
@@ -275,6 +304,15 @@ const Profile = (props) => {
                 </Col>
               </Row>
             </Col>
+          </Row>
+        </Col>
+        <Col xs={11} className="my-3">
+          <Row className="p-3 justify-content-center align-items-center">
+            <Link to="/contact">
+              <Button variant="dark" size="lg">
+                Contactar
+              </Button>
+            </Link>
           </Row>
         </Col>
       </Row>

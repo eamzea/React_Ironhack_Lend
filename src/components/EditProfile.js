@@ -4,7 +4,13 @@ import { Container, Row, Col, Button, Modal } from "react-bootstrap";
 import RubberBand from "react-reveal/RubberBand";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import { TextField, Grid } from "@material-ui/core";
-import { AccountCircle, Face, MailOutline, VpnKey } from "@material-ui/icons";
+import {
+  AccountCircle,
+  Face,
+  MailOutline,
+  VpnKey,
+  PhoneIphoneOutlined,
+} from "@material-ui/icons";
 import Avatar from "@material-ui/core/Avatar";
 import ButtonM from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
@@ -49,6 +55,7 @@ const EditProfile = (props) => {
     name: "",
     username: "",
     email: "",
+    phone: "",
     password: "",
     confirmPassword: "",
   });
@@ -133,6 +140,22 @@ const EditProfile = (props) => {
                       label="Correo"
                       className="text"
                       name="email"
+                      onChange={handleChange}
+                    />
+                  </Grid>
+                </Grid>
+              </Col>
+              <Col xs={8}>
+                <Grid container spacing={1} alignItems="center">
+                  <Grid item>
+                    <PhoneIphoneOutlined />
+                  </Grid>
+                  <Grid item>
+                    <CssTextField
+                      id="input-with-icon-grid"
+                      label="Celular"
+                      className="text"
+                      name="phone"
                       onChange={handleChange}
                     />
                   </Grid>

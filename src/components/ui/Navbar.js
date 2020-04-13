@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
+import UserContext from "../../utils/user.context";
 import {
   Button,
   Navbar,
@@ -8,13 +9,15 @@ import {
   FormControl,
   Image,
   NavDropdown,
-  Container
+  Container,
 } from "react-bootstrap";
 
 const NavbarP = () => {
   const [searchState, updateSearchState] = useState("");
 
-  const handleChange = e => {
+  const { user, updateUser } = useContext(UserContext);
+
+  const handleChange = (e) => {
     const { value } = e.target;
     updateSearchState(value);
   };
@@ -34,7 +37,7 @@ const NavbarP = () => {
             type="text"
             placeholder="Search"
             className="mr-sm-2"
-            onChange={e => handleChange(e)}
+            onChange={(e) => handleChange(e)}
             className="text"
           />
           <Link to={`/results/${searchState}`}>
@@ -49,21 +52,35 @@ const NavbarP = () => {
             <Nav.Link href="/" className="text">
               Inicio
             </Nav.Link>
-            <NavDropdown title="Únete" id="basic-nav-dropdown" className="text">
-              <NavDropdown.Item href="/log-in" className="text">
-                Inicia Sesión
-              </NavDropdown.Item>
-              <NavDropdown.Item href="/register" className="text">
-                Regístrate
-              </NavDropdown.Item>
-              <NavDropdown.Item href="/profile" className="text">
-                Perfil
-              </NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="/log-out" className="text">
-                Salir
-              </NavDropdown.Item>
-            </NavDropdown>
+            {user ? (
+              <NavDropdown
+                title="Hola"
+                id="basic-nav-dropdown"
+                className="text"
+              >
+                <NavDropdown.Item href="/profile" className="text">
+                  Perfil
+                </NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item href="/log-out" className="text">
+                  Salir
+                </NavDropdown.Item>
+              </NavDropdown>
+            ) : (
+              <NavDropdown
+                title="Únete"
+                id="basic-nav-dropdown"
+                className="text"
+              >
+                <NavDropdown.Item href="/login" className="text">
+                  Inicia Sesión
+                </NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item href="/register" className="text">
+                  Regístrate
+                </NavDropdown.Item>
+              </NavDropdown>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Navbar>

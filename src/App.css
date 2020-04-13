@@ -148,6 +148,41 @@ body {
   }
 }
 
+.login-page {
+  background-image: url("/images/login-bg.png");
+  background-size: cover;
+  object-fit: cover;
+  margin-top: 9vh;
+  height: 90vh;
+}
+
+.login-row {
+  justify-content: start;
+  align-items: center;
+}
+
+.login-box {
+  background-color: #ffffff;
+  border-radius: 25px;
+  padding: 25px;
+  margin-left: 25%;
+}
+
+@media (max-width: 768px) {
+  .login-page {
+    background-image: url("/images/login-mobile-bg.png");
+    background-position: center;
+  }
+  .login-row {
+    justify-content: center;
+  }
+
+  .login-box {
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0.95);
+  }
+}
+
 .profile-page {
   margin-top: 10vh;
 }

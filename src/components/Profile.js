@@ -105,7 +105,7 @@ const Profile = (props) => {
                 md={3}
                 className="d-flex justify-content-center align-items-center"
               >
-                <Link to="/edit-profile">
+                <Link to={`/edit-profile/${username}`}>
                   <Button variant="dark" size="lg">
                     Editar perfil
                   </Button>
@@ -306,15 +306,17 @@ const Profile = (props) => {
             </Col>
           </Row>
         </Col>
-        <Col xs={11} className="my-3">
-          <Row className="p-3 justify-content-center align-items-center">
-            <Link to="/contact">
-              <Button variant="dark" size="lg">
-                Contactar
-              </Button>
-            </Link>
-          </Row>
-        </Col>
+        {!ownerState && (
+          <Col xs={11} className="my-3">
+            <Row className="p-3 justify-content-center align-items-center">
+              <Link to="/contact">
+                <Button variant="dark" size="lg">
+                  Contactar
+                </Button>
+              </Link>
+            </Row>
+          </Col>
+        )}
       </Row>
     </Container>
   );

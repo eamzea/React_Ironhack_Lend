@@ -15,7 +15,7 @@ import {
 const NavbarP = () => {
   const [searchState, updateSearchState] = useState("");
 
-  const { user, updateUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   const handleChange = (e) => {
     const { value } = e.target;
@@ -54,11 +54,14 @@ const NavbarP = () => {
             </Nav.Link>
             {user ? (
               <NavDropdown
-                title="Hola"
+                title={`Hola ${user.username}`}
                 id="basic-nav-dropdown"
                 className="text"
               >
-                <NavDropdown.Item href="/profile" className="text">
+                <NavDropdown.Item
+                  href={`/profile/${user.username}`}
+                  className="text"
+                >
                   Perfil
                 </NavDropdown.Item>
                 <NavDropdown.Divider />

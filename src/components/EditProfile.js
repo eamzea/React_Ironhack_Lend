@@ -1,5 +1,7 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import UserContext from "../utils/user.context";
+import LendService from "../services/lendService";
+import { useHistory } from "react-router-dom";
 import { Container, Row, Col, Button, Modal } from "react-bootstrap";
 import RubberBand from "react-reveal/RubberBand";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
@@ -51,6 +53,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const EditProfile = (props) => {
+  const history = useHistory();
+
   const [userState, updateUserState] = useState({
     name: "",
     username: "",
@@ -59,6 +63,8 @@ const EditProfile = (props) => {
     password: "",
     confirmPassword: "",
   });
+
+  const { user, updateUser } = useContext(UserContext);
 
   const [show, setShow] = useState(false);
 
@@ -79,6 +85,28 @@ const EditProfile = (props) => {
       updateUserFileState(URL.createObjectURL(e.target.files[0]));
       handleShow();
     }
+  };
+
+  const isReady = () => {
+    if (userState.password === userState.confirmPassword) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const handleEdit = () => {
+    const lendService = new LendService();
+
+    for (const prop in userState) {
+      if (userState[prop] == "") {
+        userState[prop] = user[prop];
+      }
+    }
+
+    lendService.editProfile(user.username, userState).then((res) => {
+      history.push(`/profile/${res.data.username}`);
+    });
   };
 
   return (
@@ -104,6 +132,7 @@ const EditProfile = (props) => {
                   </Grid>
                   <Grid item>
                     <CssTextField
+                      defaultValue={user.name}
                       id="input-with-icon-grid"
                       label="Nombre"
                       className="text"
@@ -120,6 +149,7 @@ const EditProfile = (props) => {
                   </Grid>
                   <Grid item>
                     <CssTextField
+                      defaultValue={user.username}
                       id="input-with-icon-grid"
                       label="Usuario"
                       className="text"
@@ -136,6 +166,7 @@ const EditProfile = (props) => {
                   </Grid>
                   <Grid item>
                     <CssTextField
+                      defaultValue={user.email}
                       id="input-with-icon-grid"
                       label="Correo"
                       className="text"
@@ -152,6 +183,7 @@ const EditProfile = (props) => {
                   </Grid>
                   <Grid item>
                     <CssTextField
+                      defaultValue={user.phone}
                       id="input-with-icon-grid"
                       label="Celular"
                       className="text"
@@ -167,13 +199,27 @@ const EditProfile = (props) => {
                     <VpnKey />
                   </Grid>
                   <Grid item>
-                    <CssTextField
-                      id="input-with-icon-grid"
-                      label="Contraseña"
-                      className="text"
-                      name="password"
-                      onChange={handleChange}
-                    />
+                    {isReady() ? (
+                      <CssTextField
+                        id="input-with-icon-grid"
+                        label="Nueva Contraseña"
+                        className="text"
+                        name="password"
+                        type="password"
+                        onChange={handleChange}
+                      />
+                    ) : (
+                      <CssTextField
+                        error
+                        helperText="Las contraseñas no coinciden"
+                        id="input-with-icon-grid"
+                        label="Nueva Contraseña"
+                        className="text"
+                        name="password"
+                        type="password"
+                        onChange={handleChange}
+                      />
+                    )}
                   </Grid>
                 </Grid>
               </Col>
@@ -183,13 +229,27 @@ const EditProfile = (props) => {
                     <VpnKey />
                   </Grid>
                   <Grid item>
-                    <CssTextField
-                      id="input-with-icon-grid"
-                      label="Confirma Contraseña"
-                      className="text"
-                      name="confirmPassword"
-                      onChange={handleChange}
-                    />
+                    {isReady() ? (
+                      <CssTextField
+                        id="input-with-icon-grid"
+                        label="Confirma Contraseña"
+                        className="text"
+                        name="confirmPassword"
+                        type="password"
+                        onChange={handleChange}
+                      />
+                    ) : (
+                      <CssTextField
+                        error
+                        helperText="Las contraseñas no coinciden"
+                        id="input-with-icon-grid"
+                        label="Confirma Contraseña"
+                        className="text"
+                        name="confirmPassword"
+                        type="password"
+                        onChange={handleChange}
+                      />
+                    )}
                   </Grid>
                 </Grid>
               </Col>
@@ -285,11 +345,20 @@ const EditProfile = (props) => {
                 xs={8}
                 className="d-flex justify-content-start align-items-center mt-5"
               >
-                <Link to={"/profile"}>
-                  <Button variant="dark" className="text">
+                {isReady() ? (
+                  <Button variant="dark" className="text" onClick={handleEdit}>
                     Actualizar
                   </Button>
-                </Link>
+                ) : (
+                  <Button
+                    variant="dark"
+                    className="text"
+                    disabled
+                    onClick={handleEdit}
+                  >
+                    Actualizar
+                  </Button>
+                )}
               </Col>
             </Row>
           </Col>

@@ -39,7 +39,7 @@ const Login = (props) => {
     password: "",
   });
 
-  const { updateUser } = useContext(UserContext);
+  const { user, updateUser } = useContext(UserContext);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -60,6 +60,7 @@ const Login = (props) => {
     lendService.logIn(userState).then((res) => {
       updateUserState({ credential: "", password: "" });
       updateUser(res.data);
+      history.push(`/profile/${res.data.username}`);
     });
   };
 

@@ -6,6 +6,7 @@ import UserContext from "./utils/user.context";
 import LendService from "./services/lendService";
 import NavbarP from "./components/ui/Navbar";
 import FooterP from "./components/ui/Footer";
+import ProtectedRoute from "./components/ProtectedRoute";
 import RegisterP from "./components/Register";
 import Home from "./components/Home";
 import Results from "./components/Results";
@@ -42,7 +43,10 @@ function App() {
         <Route exact path="/login" component={Login} />
         <Route path="/register" component={RegisterP} />
         <Route path="/signup" component={SignUp} />
-        <Route path="/edit-profile" component={EditProfile} />
+        <ProtectedRoute
+          path="/edit-profile/:username"
+          component={EditProfile}
+        />
         <Route path="/profile/:username" component={Profile} />
         <Route path="/results" component={Results} />
         <Route path="/results/:stuff" component={Results} />

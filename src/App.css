@@ -20,6 +20,26 @@ body {
   z-index: 10;
 }
 
+.navbarP-link {
+  color: rgba(0, 0, 0, 0.5);
+  padding: 0.5rem 0;
+}
+
+.navbarP-link:hover {
+  color: rgba(0, 0, 0, 0.9);
+  text-decoration: none;
+}
+
+.navbarP-item {
+  color: rgba(0, 0, 0, 0.5);
+  text-decoration: none;
+}
+
+.navbarP-item:hover {
+  color: rgba(0, 0, 0, 0.9);
+  text-decoration: none;
+}
+
 .logo-nav {
   width: 50px;
 }

@@ -24,10 +24,16 @@ class LendService {
     return response;
   };
 
-  editProfile = async (username, user) => {
-    console.log(username);
-    console.log(user);
+  editProfile = async (username, user, file) => {
     const response = await this.service.post(`/edit-profile/${username}`, user);
+    return response;
+  };
+
+  uploadProfilePhoto = async (profilePic) => {
+    const response = await this.service.post(
+      "/upload-profile-photo",
+      profilePic
+    );
     return response;
   };
 

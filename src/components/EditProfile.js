@@ -68,24 +68,27 @@ const EditProfile = (props) => {
 
   const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+
+    const lendService = new LendService();
+
+    const uploadImg = new FormData();
+
+    uploadImg.append("profilePic", userState.profilePic);
+
+    lendService.uploadProfilePhoto(uploadImg).then((res) => {
+      updateUserState(
+        Object.assign({}, userState, { profilePic: res.data.secure_url })
+      );
+    });
+  };
+
   const handleShow = () => setShow(true);
 
   const [userFileState, updateUserFileState] = useState();
 
   const classes = useStyles();
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    updateUserState(Object.assign({}, userState, { [name]: value }));
-  };
-
-  const handleFile = (e) => {
-    if (e.target.files[0]) {
-      updateUserFileState(URL.createObjectURL(e.target.files[0]));
-      handleShow();
-    }
-  };
 
   const isReady = () => {
     if (userState.password === userState.confirmPassword) {
@@ -95,17 +98,36 @@ const EditProfile = (props) => {
     }
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    updateUserState(Object.assign({}, userState, { [name]: value }));
+  };
+
+  const handleFile = (e) => {
+    if (e.target.files[0]) {
+      updateUserFileState(URL.createObjectURL(e.target.files[0]));
+      updateUserState(
+        Object.assign({}, userState, { profilePic: e.target.files[0] })
+      );
+      handleShow();
+    }
+  };
+
   const handleEdit = () => {
     const lendService = new LendService();
 
-    for (const prop in userState) {
-      if (userState[prop] == "") {
-        userState[prop] = user[prop];
-      }
+    if (userState.name === "") {
+      userState.name = user.name;
+    } else if (userState.username === "") {
+      userState.username = user.username;
+    } else if (userState.email === "") {
+      userState.email = user.email;
+    } else if (userState.phone === "") {
+      userState.phone = user.phone;
     }
 
     lendService.editProfile(user.username, userState).then((res) => {
-      history.push(`/profile/${res.data.username}`);
+      // history.push(`/profile/${res.data.username}`);
     });
   };
 

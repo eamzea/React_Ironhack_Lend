@@ -49,24 +49,28 @@ const NavbarP = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
           <Nav style={{ marginRight: "100px" }}>
-            <Nav.Link href="/" className="text">
+            <Link to="/" className="text navbarP-link">
               Inicio
-            </Nav.Link>
+            </Link>
             {user ? (
               <NavDropdown
                 title={`Hola ${user.username}`}
                 id="basic-nav-dropdown"
                 className="text"
               >
-                <NavDropdown.Item
-                  href={`/profile/${user.username}`}
-                  className="text"
-                >
-                  Perfil
+                <NavDropdown.Item>
+                  <Link
+                    to={`/profile/${user.username}`}
+                    className="text navbarP-item"
+                  >
+                    Perfil
+                  </Link>
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item href="/log-out" className="text">
-                  Salir
+                <NavDropdown.Item>
+                  <Link to="/log-out" className="text navbarP-item">
+                    Salir
+                  </Link>
                 </NavDropdown.Item>
               </NavDropdown>
             ) : (
@@ -75,12 +79,16 @@ const NavbarP = () => {
                 id="basic-nav-dropdown"
                 className="text"
               >
-                <NavDropdown.Item href="/login" className="text">
-                  Inicia Sesión
+                <NavDropdown.Item>
+                  <Link to="/login" className="text navbarP-item">
+                    Inicia Sesión
+                  </Link>
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item href="/register" className="text">
-                  Regístrate
+                <NavDropdown.Item>
+                  <Link to="/register" className="text navbarP-item">
+                    Regístrate
+                  </Link>
                 </NavDropdown.Item>
               </NavDropdown>
             )}

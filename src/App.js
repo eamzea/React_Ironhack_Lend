@@ -16,7 +16,7 @@ import Profile from "./components/Profile";
 import EditProfile from "./components/EditProfile";
 
 function App() {
-  const [theUser, getTheUser] = useState(null);
+  const [theUser, getTheUser] = useState();
 
   const service = new LendService();
 

@@ -14,6 +14,8 @@ import SignUp from "./components/SignUp";
 import Login from "./components/Login";
 import Profile from "./components/Profile";
 import EditProfile from "./components/EditProfile";
+import NotFound from "./components/ui/NotFound";
+import Contact from "./components/Contact";
 
 function App() {
   const [theUser, getTheUser] = useState();
@@ -49,7 +51,8 @@ function App() {
         />
         <Route path="/profile/:username" component={Profile} />
         <Route path="/results" component={Results} />
-        <Route path="/results/:stuff" component={Results} />
+        <Route path="/contact" component={Contact} />
+        <Route path="*" component={NotFound} />
       </Switch>
       <FooterP />
     </UserContext.Provider>

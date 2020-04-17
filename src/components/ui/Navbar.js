@@ -58,20 +58,17 @@ const NavbarP = () => {
                 id="basic-nav-dropdown"
                 className="text"
               >
-                <NavDropdown.Item>
-                  <Link
-                    to={`/profile/${user.username}`}
-                    className="text navbarP-item"
-                  >
-                    Perfil
-                  </Link>
-                </NavDropdown.Item>
+                <Link
+                  to={`/profile/${user.username}`}
+                  className="text navbarP-item"
+                >
+                  Perfil
+                </Link>
                 <NavDropdown.Divider />
-                <NavDropdown.Item>
-                  <Link to="/log-out" className="text navbarP-item">
-                    Salir
-                  </Link>
-                </NavDropdown.Item>
+
+                <Link to="/log-out" className="text navbarP-item">
+                  Salir
+                </Link>
               </NavDropdown>
             ) : (
               <NavDropdown
@@ -79,17 +76,13 @@ const NavbarP = () => {
                 id="basic-nav-dropdown"
                 className="text"
               >
-                <NavDropdown.Item>
-                  <Link to="/login" className="text navbarP-item">
-                    Inicia Sesión
-                  </Link>
-                </NavDropdown.Item>
+                <Link to="/login" className="text navbarP-item">
+                  Inicia Sesión
+                </Link>
                 <NavDropdown.Divider />
-                <NavDropdown.Item>
-                  <Link to="/register" className="text navbarP-item">
-                    Regístrate
-                  </Link>
-                </NavDropdown.Item>
+                <Link to="/register" className="text navbarP-item">
+                  Regístrate
+                </Link>
               </NavDropdown>
             )}
           </Nav>

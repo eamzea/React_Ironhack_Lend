@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Profile = (props) => {
+const Profile = () => {
   const { username } = useParams();
 
   const classes = useStyles();
@@ -33,6 +33,8 @@ const Profile = (props) => {
     email: "",
     phone: "",
     stuffs: [],
+    profilePic: "",
+    since: "",
   });
 
   const [ownerState, updateOwnerState] = useState();
@@ -43,6 +45,8 @@ const Profile = (props) => {
     lendService.getProfile(username).then((res) => {
       updateUserInfoState(res.data.profile);
       updateOwnerState(res.data.owner);
+
+      console.log(res.data);
     });
   };
 
@@ -74,7 +78,10 @@ const Profile = (props) => {
               md={2}
               className="d-flex justify-content-center align-items-center"
             >
-              <Avatar className={classes.large}>H</Avatar>
+              <Avatar
+                className={classes.large}
+                src={userInfoState.profilePic}
+              />
             </Col>
             <Col xs={11} md={4}>
               <p className="text-white h2 titles">{userInfoState.name}</p>
@@ -173,7 +180,7 @@ const Profile = (props) => {
                 </Link>
               )}
             </Col>
-            {ownerState && (
+            {ownerState ? (
               <Col
                 xs={11}
                 className="d-flex justify-content-around align-items-center py-3"
@@ -181,6 +188,17 @@ const Profile = (props) => {
                 <Link to="/add-new">
                   <Button variant="dark" size="lg">
                     Agrega un nuevo artículo
+                  </Button>
+                </Link>
+              </Col>
+            ) : (
+              <Col
+                xs={11}
+                className="d-flex justify-content-around align-items-center py-3"
+              >
+                <Link to="/">
+                  <Button variant="dark" size="lg">
+                    Buscar un nuevo artículo
                   </Button>
                 </Link>
               </Col>
@@ -233,16 +251,6 @@ const Profile = (props) => {
                   </Button>
                 </Link>
               )}
-            </Col>
-            <Col
-              xs={11}
-              className="d-flex justify-content-around align-items-center py-3"
-            >
-              <Link to="/">
-                <Button variant="dark" size="lg">
-                  Buscar un nuevo artículo
-                </Button>
-              </Link>
             </Col>
           </Row>
         </Col>

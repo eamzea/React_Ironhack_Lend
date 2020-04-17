@@ -42,6 +42,11 @@ class LendService {
     return response;
   };
 
+  logOut = async () => {
+    const response = await this.service.post("/logout");
+    return response;
+  };
+
   validateUser = async (username) => {
     const response = await this.service.get;
   };

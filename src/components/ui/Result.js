@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Card } from "react-bootstrap";
 
 const Result = ({ result }) => {
   return (
-    <Link to={`/article/${result.id}`} className="results-card">
+    <Link to={`/profile/eamzea`} className="results-card">
       <Card
         border={"light"}
         className="justify-content-center align-items-center"

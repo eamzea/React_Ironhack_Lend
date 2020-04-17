@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import LendService from "../services/lendService";
 import UserContext from "../utils/user.context";
-import { Container, Row, Col, Button, Form } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import RubberBand from "react-reveal/RubberBand";
 import { withStyles } from "@material-ui/core/styles";
 import { TextField, Grid } from "@material-ui/core";
@@ -31,7 +31,7 @@ const CssTextField = withStyles({
   },
 })(TextField);
 
-const Login = (props) => {
+const Login = () => {
   const history = useHistory();
 
   const [userState, updateUserState] = useState({
@@ -39,7 +39,7 @@ const Login = (props) => {
     password: "",
   });
 
-  const { user, updateUser } = useContext(UserContext);
+  const { updateUser } = useContext(UserContext);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -60,7 +60,7 @@ const Login = (props) => {
     lendService.logIn(userState).then((res) => {
       updateUserState({ credential: "", password: "" });
       updateUser(res.data);
-      history.push(`/profile/${res.data.username}`);
+      history.push(`/`);
     });
   };
 

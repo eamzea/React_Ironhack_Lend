@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EditProfile = (props) => {
+const EditProfile = () => {
   const history = useHistory();
 
   const [userState, updateUserState] = useState({
@@ -62,6 +62,7 @@ const EditProfile = (props) => {
     phone: "",
     password: "",
     confirmPassword: "",
+    profilePic: "",
   });
 
   const { user, updateUser } = useContext(UserContext);
@@ -118,16 +119,23 @@ const EditProfile = (props) => {
 
     if (userState.name === "") {
       userState.name = user.name;
-    } else if (userState.username === "") {
+    }
+    if (userState.username === "") {
       userState.username = user.username;
-    } else if (userState.email === "") {
+    }
+    if (userState.email === "") {
       userState.email = user.email;
-    } else if (userState.phone === "") {
+    }
+    if (userState.phone === "") {
       userState.phone = user.phone;
+    }
+    if (userState.profilePic === "") {
+      userState.profilePic = user.profilePic;
     }
 
     lendService.editProfile(user.username, userState).then((res) => {
-      // history.push(`/profile/${res.data.username}`);
+      updateUser(Object.assign({}, user, res.data));
+      history.push(`/profile/${res.data.username}`);
     });
   };
 
@@ -145,7 +153,7 @@ const EditProfile = (props) => {
                 xs={8}
                 className="d-flex justify-content-center align-items-center"
               >
-                <Avatar>H</Avatar>
+                <Avatar src={user.profilePic} />
               </Col>
               <Col xs={8}>
                 <Grid container spacing={1} alignItems="center">

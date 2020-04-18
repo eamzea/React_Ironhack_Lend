@@ -45,8 +45,6 @@ const Profile = () => {
     lendService.getProfile(username).then((res) => {
       updateUserInfoState(res.data.profile);
       updateOwnerState(res.data.owner);
-
-      console.log(res.data);
     });
   };
 
@@ -126,7 +124,7 @@ const Profile = () => {
                 md={3}
                 className="d-flex justify-content-center align-items-center"
               >
-                <Link to="/contact">
+                <Link to={`/contact/${username}`}>
                   <Button variant="dark" size="lg">
                     Contactar
                   </Button>

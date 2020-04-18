@@ -297,7 +297,6 @@ body {
 
 .contact-page {
   margin-top: 10vh;
-  height: 90vh;
 }
 
 .contact-cols {
@@ -326,6 +325,20 @@ body {
 .contact-important-cols {
   background-color: #e41459;
   border-radius: 25px;
+}
+
+option {
+  padding-left: 10px;
+}
+
+option:checked {
+  background-color: #c0e0ff;
+  border-radius: 10px;
+}
+
+.contact-article-img {
+  height: 75px;
+  width: 75px;
 }
 
 .notfound-page {

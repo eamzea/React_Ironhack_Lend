@@ -24,6 +24,11 @@ class LendService {
     return response;
   };
 
+  getContact = async (username) => {
+    const response = await this.service.get(`/contact/${username}`);
+    return response;
+  };
+
   editProfile = async (username, user, file) => {
     const response = await this.service.post(`/edit-profile/${username}`, user);
     return response;

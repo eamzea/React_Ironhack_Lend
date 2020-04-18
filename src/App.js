@@ -51,7 +51,7 @@ function App() {
         />
         <Route path="/profile/:username" component={Profile} />
         <Route path="/results" component={Results} />
-        <Route path="/contact" component={Contact} />
+        <Route path="/contact/:username" component={Contact} />
         <Route path="*" component={NotFound} />
       </Switch>
       <FooterP />

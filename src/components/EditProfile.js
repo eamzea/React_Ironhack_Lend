@@ -69,6 +69,8 @@ const EditProfile = () => {
 
   const [show, setShow] = useState(false);
 
+  const classes = useStyles();
+
   const handleClose = () => {
     setShow(false);
 
@@ -78,7 +80,7 @@ const EditProfile = () => {
 
     uploadImg.append("profilePic", userState.profilePic);
 
-    lendService.uploadProfilePhoto(uploadImg).then((res) => {
+    lendService.uploadPhoto(uploadImg).then((res) => {
       updateUserState(
         Object.assign({}, userState, { profilePic: res.data.secure_url })
       );
@@ -88,8 +90,6 @@ const EditProfile = () => {
   const handleShow = () => setShow(true);
 
   const [userFileState, updateUserFileState] = useState();
-
-  const classes = useStyles();
 
   const isReady = () => {
     if (userState.password === userState.confirmPassword) {

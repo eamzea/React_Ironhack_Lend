@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
+import LendService from "../services/lendService";
 import {
   Container,
   Row,
@@ -18,21 +19,24 @@ const Results = (props) => {
 
   const [toggleState, updateToggleState] = useState(false);
 
-  useEffect(() => {
-    updateToggleState(true);
-  }, []);
+  const [stuffsResultState, updateStuffResultState] = useState([]);
 
   const handleChange = (e) => {
     const { value } = e.target;
     updateSearchState(value);
   };
 
-  const result = {
-    name: "Videojuego",
-    img:
-      "https://static.emulatorgames.net/images/gameboy-advance/pokemon-fire-red-version-v1-1.jpg",
-    description:
-      "Pokémon Edición Rojo Fuego y Edición Verde Hoja, conocidos en Japón como Pocket Monsters Fire Red & Leaf Green, son dos videojuegos lanzados para la consola portátil Game Boy Advance de Nintendo en octubre de 2004, siendo remakes de los videojuegos Pokémon Rojo y Azul, lanzados en 1996",
+  useEffect(() => {
+    getResults(stuff);
+  }, []);
+
+  const getResults = (stuff) => {
+    const lendService = new LendService();
+
+    lendService.getSearch(stuff).then((res) => {
+      updateStuffResultState([...res.data]);
+      updateToggleState(true);
+    });
   };
 
   return (
@@ -51,47 +55,39 @@ const Results = (props) => {
                 className="text"
               />
               <InputGroup.Append>
-                <Link to={`/results/${searchState}`}>
-                  <Button variant="dark" className="text">
-                    Buscar
-                  </Button>
-                </Link>
+                <Button
+                  variant="dark"
+                  className="text"
+                  onClick={() => getResults(searchState)}
+                >
+                  Buscar
+                </Button>
               </InputGroup.Append>
             </InputGroup>
           </div>
         </Col>
       </Row>
       <Row className="justify-content-around align-items-center">
-        <Col md={3} className="m-3 ">
-          <Zoom collapse when={toggleState}>
-            <Result result={result} />
-          </Zoom>
-        </Col>
-        <Col md={3} className="m-3 ">
-          <Zoom collapse when={toggleState}>
-            <Result result={result} />
-          </Zoom>
-        </Col>
-        <Col md={3} className="m-3 ">
-          <Zoom collapse when={toggleState}>
-            <Result result={result} />
-          </Zoom>
-        </Col>
-        <Col md={3} className="m-3 ">
-          <Zoom collapse when={toggleState}>
-            <Result result={result} />
-          </Zoom>
-        </Col>
-        <Col md={3} className="m-3 ">
-          <Zoom collapse when={toggleState}>
-            <Result result={result} />
-          </Zoom>
-        </Col>
-        <Col md={3} className="m-3 ">
-          <Zoom collapse when={toggleState}>
-            <Result result={result} />
-          </Zoom>
-        </Col>
+        {stuffsResultState.length > 0 ? (
+          stuffsResultState.map((e, i) => {
+            return (
+              <Col md={3} className="m-3" key={i}>
+                <Zoom collapse when={toggleState}>
+                  <Result result={e} />
+                </Zoom>
+              </Col>
+            );
+          })
+        ) : (
+          <Col md={12} className="m-3">
+            <p className="titles text-center h3 my-5">
+              Parece que aún no tenemos este artículo
+            </p>
+            <p className="titles text-center h4 my-5">
+              Realiza una nueva búsqueda
+            </p>
+          </Col>
+        )}
       </Row>
     </Container>
   );

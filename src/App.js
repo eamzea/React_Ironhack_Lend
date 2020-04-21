@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -13,6 +13,7 @@ import Results from "./components/Results";
 import SignUp from "./components/SignUp";
 import Login from "./components/Login";
 import Profile from "./components/Profile";
+import AddNewStuff from "./components/AddNewStuff";
 import EditProfile from "./components/EditProfile";
 import NotFound from "./components/ui/NotFound";
 import Contact from "./components/Contact";
@@ -23,19 +24,19 @@ function App() {
   const service = new LendService();
 
   const fetchUser = () => {
-    if (theUser === null) {
-      service
-        .logIn()
-        .then((response) => {
-          getTheUser(response.data);
-        })
-        .catch((err) => {
-          getTheUser(null);
-        });
-    }
+    service
+      .isLogged()
+      .then((response) => {
+        getTheUser(response.data);
+      })
+      .catch((err) => {
+        getTheUser(null);
+      });
   };
 
-  fetchUser();
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   return (
     <UserContext.Provider value={{ user: theUser, updateUser: getTheUser }}>
@@ -50,8 +51,9 @@ function App() {
           component={EditProfile}
         />
         <Route path="/profile/:username" component={Profile} />
-        <Route path="/results" component={Results} />
+        <Route path="/results/:stuff" component={Results} />
         <Route path="/contact/:username" component={Contact} />
+        <ProtectedRoute path="/add-new-stuff" component={AddNewStuff} />
         <Route path="*" component={NotFound} />
       </Switch>
       <FooterP />

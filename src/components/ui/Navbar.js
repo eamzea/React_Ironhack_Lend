@@ -1,4 +1,6 @@
 import React, { useState, useContext } from "react";
+import { useHistory } from "react-router-dom";
+import LendService from "../../services/lendService";
 import { Link } from "react-router-dom";
 import UserContext from "../../utils/user.context";
 import {
@@ -13,13 +15,24 @@ import {
 } from "react-bootstrap";
 
 const NavbarP = () => {
+  const history = useHistory();
+
   const [searchState, updateSearchState] = useState("");
 
-  const { user } = useContext(UserContext);
+  const { user, updateUser } = useContext(UserContext);
 
   const handleChange = (e) => {
     const { value } = e.target;
     updateSearchState(value);
+  };
+
+  const handleLogOut = () => {
+    const lendService = new LendService();
+
+    lendService.logOut().then(() => {
+      updateUser(null);
+      history.push("/");
+    });
   };
 
   return (
@@ -35,14 +48,14 @@ const NavbarP = () => {
         >
           <FormControl
             type="text"
-            placeholder="Search"
+            placeholder="Buscar"
             className="mr-sm-2"
             onChange={(e) => handleChange(e)}
             className="text"
           />
           <Link to={`/results/${searchState}`}>
             <Button variant="dark" className="text">
-              Search
+              Buscar
             </Button>
           </Link>
         </Form>
@@ -66,7 +79,11 @@ const NavbarP = () => {
                 </Link>
                 <NavDropdown.Divider />
 
-                <Link to="/log-out" className="text navbarP-item">
+                <Link
+                  to="/"
+                  className="text navbarP-item"
+                  onClick={handleLogOut}
+                >
                   Salir
                 </Link>
               </NavDropdown>

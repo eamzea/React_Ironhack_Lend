@@ -80,6 +80,7 @@ body {
 .result-page {
   background-image: url("/images/result-bg.png");
   background-size: cover;
+  min-height: 90vh;
   margin-top: 9vh;
 }
 
@@ -293,6 +294,27 @@ body {
     margin: 0 auto;
     background-color: rgba(255, 255, 255, 0.75);
   }
+}
+
+.addStuff-page {
+  background-image: url("/images/add-stuff-bg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-top: 9.5vh;
+  height: 90vh;
+}
+
+.addStuff-row {
+  justify-content: start;
+  align-items: center;
+}
+
+.addStuff-box {
+  background-color: #ffffff;
+  border-radius: 25px;
+  padding: 25px;
+  margin-left: 20%;
 }
 
 .contact-page {

@@ -3,15 +3,20 @@ import axios from "axios";
 class LendService {
   constructor() {
     let service = axios.create({
-      baseURL: "http://localhost:3100",
+      baseURL: process.env.REACT_APP_API_URL,
       withCredentials: true,
     });
     this.service = service;
   }
 
-  getSearch = async (search) => {
-    const response = await this.service.get(`/search/${search}`);
-    return response.data;
+  isLogged = async () => {
+    const response = await this.service.get("/logged");
+    return response;
+  };
+
+  getSearch = async (stuff) => {
+    const response = await this.service.get(`/search/${stuff}`);
+    return response;
   };
 
   signUp = async (info) => {
@@ -34,11 +39,8 @@ class LendService {
     return response;
   };
 
-  uploadProfilePhoto = async (profilePic) => {
-    const response = await this.service.post(
-      "/upload-profile-photo",
-      profilePic
-    );
+  uploadPhoto = async (img) => {
+    const response = await this.service.post("/upload-photo", img);
     return response;
   };
 
@@ -52,8 +54,9 @@ class LendService {
     return response;
   };
 
-  validateUser = async (username) => {
-    const response = await this.service.get;
+  newStuff = async (stuff) => {
+    const response = await this.service.post("/add-new-stuff", stuff);
+    return response;
   };
 }
 

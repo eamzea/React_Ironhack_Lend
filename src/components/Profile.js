@@ -39,13 +39,16 @@ const Profile = () => {
 
   const [ownerState, updateOwnerState] = useState();
 
-  const getProfileInfo = () => {
+  const [ownerStuffState, updateOwnerStuffState] = useState([]);
+
+  const getProfileInfo = async () => {
     const lendService = new LendService();
 
-    lendService.getProfile(username).then((res) => {
-      updateUserInfoState(res.data.profile);
-      updateOwnerState(res.data.owner);
-    });
+    const res = await lendService.getProfile(username);
+
+    updateUserInfoState(res.data.profile);
+    updateOwnerState(res.data.owner);
+    updateOwnerStuffState([...res.data.stuffs]);
   };
 
   useEffect(() => {
@@ -138,52 +141,48 @@ const Profile = () => {
             <Col xs={11}>
               <p className="text-white h2 titles my-3">Lista de Artículos</p>
             </Col>
-            <Col xs={11} className="profile-list py-3">
-              <Image
-                src="https://static.emulatorgames.net/images/gameboy-advance/pokemon-fire-red-version-v1-1.jpg"
-                width="100px"
-                height="100px"
-                rounded
-              />
-              <p className="text-white h2 titles">Pokémon Edición Rojo Fuego</p>
-              <p className="text-white h4 titles">
-                Estatus :{" "}
-                <span className="bg-success rounded p-3">Disponible</span>
-              </p>
-              {ownerState && (
-                <Link to="/add-new">
-                  <Button variant="danger" size="lg">
-                    Quitar
-                  </Button>
-                </Link>
-              )}
-            </Col>
-            <Col xs={11} className="profile-list py-3">
-              <Image
-                src="https://static.emulatorgames.net/images/gameboy-advance/pokemon-fire-red-version-v1-1.jpg"
-                width="100px"
-                height="100px"
-                rounded
-              />
-              <p className="text-white h2 titles">Pokémon Edición Rojo Fuego</p>
-              <p className="text-white h4 titles">
-                Estatus :{" "}
-                <span className="bg-danger rounded p-3">Préstamo</span>
-              </p>
-              {ownerState && (
-                <Link to="/add-new">
-                  <Button variant="danger" size="lg">
-                    Quitar
-                  </Button>
-                </Link>
-              )}
-            </Col>
+            {userInfoState.stuffs.length > 0 ? (
+              ownerStuffState.map((e) => {
+                return (
+                  <Col xs={11} className="profile-list py-3">
+                    <Image
+                      src={e.imgPath}
+                      width="100px"
+                      height="100px"
+                      rounded
+                    />
+                    <p className="text-white h2 titles">{e.name}</p>
+                    <p className="text-white h4 titles">
+                      Estatus :
+                      {e.available ? (
+                        <span className="bg-success rounded p-3">
+                          Disponible
+                        </span>
+                      ) : (
+                        <span className="bg-warning rounded p-3">Préstamo</span>
+                      )}
+                    </p>
+                    {ownerState && (
+                      <Link to="/add-new">
+                        <Button variant="danger" size="lg">
+                          Quitar
+                        </Button>
+                      </Link>
+                    )}
+                  </Col>
+                );
+              })
+            ) : (
+              <Col xs={11} className="profile-list py-3">
+                <p>Aún no hay artículos</p>
+              </Col>
+            )}
             {ownerState ? (
               <Col
                 xs={11}
                 className="d-flex justify-content-around align-items-center py-3"
               >
-                <Link to="/add-new">
+                <Link to="/add-new-stuff">
                   <Button variant="dark" size="lg">
                     Agrega un nuevo artículo
                   </Button>

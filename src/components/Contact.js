@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import UserContext from "../utils/user.context";
 import LendService from "../services/lendService";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
@@ -38,15 +38,17 @@ const Contact = () => {
     name: "",
     email: "",
     phone: "",
-    stuffSelected: "",
     startDate: new Date(),
     finalDate: moment().add(1, "days").toDate(),
   });
 
-  const [ownerState, updateOwnerState] = useState({
-    name: "",
-    stuffs: [],
-  });
+  const [ownerState, updateOwnerState] = useState({});
+
+  const [ownerStuffState, updateOwnerStuffState] = useState([]);
+
+  const [stuffSelectedState, updateStuffSelectedState] = useState([]);
+
+  const [totalPriceState, updateTotalPriceState] = useState([0]);
 
   const { user } = useContext(UserContext);
 
@@ -55,26 +57,46 @@ const Contact = () => {
     updateUserState(Object.assign({}, userState, { [name]: value }));
   };
 
-  const handleStuff = (e) => {
+  const handleCheck = (e) => {
+    const check = e.target.checked;
     const stuff = e.target.value;
-    updateUserState(Object.assign({}, userState, { stuffSelected: stuff }));
+    updateStuffSelectedState([
+      ...stuffSelectedState,
+      (stuffSelectedState[stuff].checked = check),
+    ]);
+    totalPrices();
   };
 
   const handleStartDate = (name) => {
-    const date = moment(name).locale("es").format("LL");
-    updateUserState(Object.assign({}, userState, { startDate: date }));
+    updateUserState(Object.assign({}, userState, { startDate: name }));
   };
 
   const handleEndDate = (name) => {
-    const date = moment(name).locale("es").format("LL");
-    updateUserState(Object.assign({}, userState, { finalDate: date }));
+    updateUserState(Object.assign({}, userState, { finalDate: name }));
   };
 
-  const getProfileInfo = () => {
+  const getProfileInfo = async () => {
     const lendService = new LendService();
 
-    lendService.getContact(username).then((res) => {
-      updateOwnerState(Object.assign({}, ownerState, res.data.profile));
+    const res = await lendService.getContact(username);
+
+    updateOwnerState(Object.assign({}, ownerState, res.data.profile));
+    updateOwnerStuffState([...ownerStuffState, ...res.data.stuffs]);
+    updateStuffSelectedState(
+      res.data.stuffs.map((stuff, index) => {
+        return { checked: false };
+      })
+    );
+  };
+
+  const totalPrices = () => {
+    stuffSelectedState.forEach((e, i) => {
+      if (e.checked === true) {
+        updateTotalPriceState([
+          ...totalPriceState,
+          ownerStuffState[i].priceLend,
+        ]);
+      }
     });
   };
 
@@ -87,7 +109,7 @@ const Contact = () => {
       userState.name != "" &&
       userState.email != "" &&
       userState.phone != "" &&
-      userState.stuffSelected != "" &&
+      totalPriceState.length > 1 &&
       userState.startDate !== userState.finalDate
     ) {
       return true;
@@ -96,12 +118,59 @@ const Contact = () => {
     }
   };
 
+  const handleContactEmail = () => {
+    let nameStuffs = "";
+
+    stuffSelectedState.forEach((e, i) => {
+      if (e.checked === true) {
+        nameStuffs += `%20${ownerStuffState[i].name}`;
+      }
+    });
+
+    const message = `Hola,%20soy%20${
+      userState.name
+    }%20y%20estoy%20interesado%20en%20estos%20artículos:${nameStuffs}.%20Las%20fechas%20estimadas%20son%20del%20${moment(
+      userState.startDate
+    )
+      .locale("es")
+      .format("LL")}
+      %20al%20${moment(userState.finalDate).locale("es").format("LL")}`;
+
+    var link = `mailto:${ownerState.email}?Subject=Hola,%20${ownerState.name},estoy%20interesado%20en%20unos%20artículos&body=${message}`;
+    window.location.href = link;
+  };
+
+  const handleContactWhats = () => {
+    let nameStuffs = "";
+
+    stuffSelectedState.forEach((e, i) => {
+      if (e.checked === true) {
+        nameStuffs += `%20${ownerStuffState[i].name}`;
+      }
+    });
+
+    const message = `Hola,%20soy%20${
+      userState.name
+    }%20y%20estoy%20interesado%20en%20estos%20artículos:${nameStuffs}.%20Las%20fechas%20estimadas%20son%20del%20${moment(
+      userState.startDate
+    )
+      .locale("es")
+      .format("LL")}%20al%20${moment(userState.finalDate)
+      .locale("es")
+      .format("LL")}`;
+
+    const url = `https://api.whatsapp.com/send?phone=52${ownerState.phone}&text=${message}&source=&data=`;
+
+    window.open(url, "_blank");
+  };
+
   return (
     <Container fluid className="contact-page">
       <Row className="justify-content-around align-items-start">
         <Col md={8} xs={11}>
           <Row>
             <Col xs={12} className="contact-cols p-3 my-3">
+              <p className="titles text-white h5">Información sobre ti</p>
               <Form.Row className="contact-form">
                 <Col className="contact-col">
                   <Form.Label className="text text-white">Nombre</Form.Label>
@@ -111,7 +180,7 @@ const Contact = () => {
                     type="text"
                     placeholder={user ? user.name : "Juan Pérez"}
                     className="text"
-                    defautValue={user ? user.name : ""}
+                    defaultValue={user ? user.name : ""}
                     onChange={handleChange}
                   />
                 </Col>
@@ -123,7 +192,7 @@ const Contact = () => {
                     type="email"
                     placeholder={user ? user.email : "juan.perez@hotmail.com"}
                     className="text"
-                    defautValue={user ? user.email : ""}
+                    defaultValue={user ? user.email : ""}
                     onChange={handleChange}
                   />
                 </Col>
@@ -146,17 +215,32 @@ const Contact = () => {
             <Col xs={12} className="contact-cols p-3 my-3">
               <Form.Row className="contact-form">
                 <Col className="contact-col">
+                  <p className="titles text-white h5">
+                    ¿En qué artículos estás interesado?
+                  </p>
                   <FormGroup row>
-                    {ownerState.stuffs.map((e) => {
-                      return (
-                        <FormControlLabel
-                          control={
-                            <Checkbox onChange={handleChange} name="checkedA" />
-                          }
-                          label={e.name}
-                        />
-                      );
-                    })}
+                    <div className="d-flex justify-content-around align-items-center">
+                      {ownerStuffState.map((e, i) => {
+                        return (
+                          <div className="mx-2">
+                            <FormControlLabel
+                              className="text text-dark m-0 bg-white rounded px-3 py-2"
+                              control={
+                                <Checkbox
+                                  onChange={handleCheck}
+                                  name={e.name}
+                                  className="p-0"
+                                />
+                              }
+                              label={e.name}
+                              key={i}
+                              id={i}
+                              value={i}
+                            />
+                          </div>
+                        );
+                      })}
+                    </div>
                   </FormGroup>
                 </Col>
               </Form.Row>
@@ -202,13 +286,28 @@ const Contact = () => {
             <p className="titles h5 text-white">{ownerState.name}</p>
           </div>
           <p className="titles text-white h4 my-3">Artículo elegido</p>
-          <div className="d-flex justify-content-between align-items-center px-3">
-            <img
-              src="https://static.emulatorgames.net/images/gameboy-advance/pokemon-fire-red-version-v1-1.jpg"
-              className="contact-article-img rounded"
-            />
-            <p className="text text-white h6">artículo</p>
-          </div>
+          {stuffSelectedState.map((e, i) => {
+            if (e.checked === true) {
+              return (
+                <div className="d-flex justify-content-between align-items-center px-3 my-2">
+                  <img
+                    src={ownerStuffState[i].imgPath}
+                    className="contact-article-img rounded"
+                  />
+                  <p className="text text-white h6">
+                    {ownerStuffState[i].name}
+                  </p>
+                  <p className="text text-white h6">
+                    ${ownerStuffState[i].priceLend}
+                  </p>
+                </div>
+              );
+            }
+          })}
+          <p className="titles text-white h4 my-3">Total estimado</p>
+          <p className="text text-white h5 text-center">
+            ${totalPriceState.reduce((a, b) => a + b)}
+          </p>
         </Col>
       </Row>
       <Row className="justify-content-around align-items-center my-3">
@@ -228,7 +327,11 @@ const Contact = () => {
       <Row className="justify-content-around align-items-center my-5">
         <Col xs={6} className="d-flex justify-content-around alig-items-center">
           {isReady() ? (
-            <Button variant="dark" className="text p-2">
+            <Button
+              variant="dark"
+              className="text p-2"
+              onClick={handleContactEmail}
+            >
               <MailOutlineIcon className="mr-3" />
               Correo
             </Button>
@@ -241,7 +344,11 @@ const Contact = () => {
         </Col>
         <Col xs={6} className="d-flex justify-content-around alig-items-center">
           {isReady() ? (
-            <Button variant="dark" className="text p-2">
+            <Button
+              variant="dark"
+              className="text p-2"
+              onClick={handleContactWhats}
+            >
               <WhatsAppIcon className="mr-3" />
               WhatsApp
             </Button>
@@ -251,6 +358,23 @@ const Contact = () => {
               WhatsApp
             </Button>
           )}
+        </Col>
+      </Row>
+      <Row className="justify-content-around align-items-center my-3">
+        <Col xs={11} className="p-3">
+          <p className="titles h3 text-dark text-center">
+            Sigue buscando más artículos
+          </p>
+        </Col>
+        <Col
+          xs={11}
+          className="p-3 d-flex justify-content-center align-items-center"
+        >
+          <Link to="/">
+            <Button variant="dark" className="text p-2">
+              Nueva Búsqueda
+            </Button>
+          </Link>
         </Col>
       </Row>
     </Container>

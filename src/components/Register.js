@@ -1,16 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import Zoom from "react-reveal/Zoom";
 
-const RegisterP = props => {
-  const [searchState, updateSearchState] = useState("");
-
-  const handleChange = e => {
-    const { value } = e.target;
-    updateSearchState(value);
-  };
-
+const RegisterP = () => {
   return (
     <Container fluid className="register-page">
       <Row className="justify-content-center align-items-center">
@@ -29,7 +22,11 @@ const RegisterP = props => {
         <Col xs={11} md={4}>
           <Zoom>
             <div className="d-flex justify-content-center align-items-center">
-              <img className="register-svg" src="images/search-register.svg" />
+              <img
+                alt="Imagen de búsqueda"
+                className="register-svg"
+                src="images/search-register.svg"
+              />
             </div>
             <p className="text-center text h2 text-white">Busca</p>
             <p className="text-center text h4 text-white">
@@ -42,7 +39,11 @@ const RegisterP = props => {
         <Col xs={11} md={4}>
           <Zoom>
             <div className="d-flex justify-content-center align-items-center">
-              <img className="register-svg" src="images/contact-register.svg" />
+              <img
+                alt="Imagen de contacto"
+                className="register-svg"
+                src="images/contact-register.svg"
+              />
             </div>
             <p className="text-center text h2 text-white">Contacta</p>
             <p className="text-center text h4 text-white">
@@ -54,7 +55,11 @@ const RegisterP = props => {
         <Col xs={11} md={4}>
           <Zoom>
             <div className="d-flex justify-content-center align-items-center">
-              <img className="register-svg" src="images/pay-register.svg" />
+              <img
+                alt="Imagen de pago"
+                className="register-svg"
+                src="images/pay-register.svg"
+              />
             </div>
             <p className="text-center text h2 text-white">Paga</p>
             <p className="text-center text h4 text-white">

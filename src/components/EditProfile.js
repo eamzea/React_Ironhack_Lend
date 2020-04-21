@@ -329,6 +329,7 @@ const EditProfile = () => {
                   <img
                     className="edit-profile-modal rounded-circle"
                     src={userFileState}
+                    alt="Imagen cargada por el usuario"
                   />
                 </Modal.Body>
                 <Modal.Footer>

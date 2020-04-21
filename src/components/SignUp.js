@@ -61,11 +61,11 @@ const SignUp = () => {
 
   const isReady = () => {
     if (
-      userState.name != "" &&
-      userState.username != "" &&
-      userState.email != "" &&
-      userState.password != "" &&
-      userState.confirmPassword != "" &&
+      userState.name !== "" &&
+      userState.username !== "" &&
+      userState.email !== "" &&
+      userState.password !== "" &&
+      userState.confirmPassword !== "" &&
       userState.terms === true
     ) {
       if (userState.password === userState.confirmPassword) {
@@ -79,9 +79,9 @@ const SignUp = () => {
   const handleRegister = () => {
     const lendService = new LendService();
 
-    // lendService.signUp(userState).then((res) => {
-    updateSuccessState(true);
-    // });
+    lendService.signUp(userState).then((res) => {
+      updateSuccessState(true);
+    });
   };
 
   return (

@@ -1,7 +1,6 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import LendService from "../services/lendService";
 import SuccessStuffAdded from "./ui/SuccessStuffAdded";
-import { useHistory } from "react-router-dom";
 import { Container, Row, Col, Button, Modal } from "react-bootstrap";
 import RubberBand from "react-reveal/RubberBand";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
@@ -268,6 +267,7 @@ const AddNewStuff = () => {
                       <img
                         className="edit-profile-modal rounded-circle"
                         src={stuffFileState}
+                        alt="Imagen cargada por el usuario"
                       />
                     </Modal.Body>
                     <Modal.Footer>

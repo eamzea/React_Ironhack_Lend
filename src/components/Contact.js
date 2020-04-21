@@ -106,9 +106,9 @@ const Contact = () => {
 
   const isReady = () => {
     if (
-      userState.name != "" &&
-      userState.email != "" &&
-      userState.phone != "" &&
+      userState.name !== "" &&
+      userState.email !== "" &&
+      userState.phone !== "" &&
       totalPriceState.length > 1 &&
       userState.startDate !== userState.finalDate
     ) {
@@ -293,6 +293,7 @@ const Contact = () => {
                   <img
                     src={ownerStuffState[i].imgPath}
                     className="contact-article-img rounded"
+                    alt={ownerStuffState[i].name}
                   />
                   <p className="text text-white h6">
                     {ownerStuffState[i].name}

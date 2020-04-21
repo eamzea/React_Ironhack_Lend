@@ -5,8 +5,8 @@ import UserContext from "../utils/user.context";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import RubberBand from "react-reveal/RubberBand";
 import { withStyles } from "@material-ui/core/styles";
-import { TextField, Grid } from "@material-ui/core";
-import { AccountCircle, Face, MailOutline, VpnKey } from "@material-ui/icons";
+import { TextField } from "@material-ui/core";
+import { AccountCircle, MailOutline, VpnKey } from "@material-ui/icons";
 
 const CssTextField = withStyles({
   root: {
@@ -47,7 +47,7 @@ const Login = () => {
   };
 
   const isReady = () => {
-    if (userState.credential != "" && userState.password != "") {
+    if (userState.credential !== "" && userState.password !== "") {
       return true;
     } else {
       return false;

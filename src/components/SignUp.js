@@ -47,7 +47,7 @@ const SignUp = () => {
     terms: Boolean,
   });
 
-  const [successState, updateSuccessState] = useState(true);
+  const [successState, updateSuccessState] = useState(false);
 
   const [validationState, updateValidationState] = useState({
     email: true,

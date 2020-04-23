@@ -315,6 +315,7 @@ const EditProfile = () => {
                       variant="contained"
                       color="primary"
                       component="span"
+                      className="buttonP"
                     >
                       Subir imagen
                     </ButtonM>
@@ -363,11 +364,16 @@ const EditProfile = () => {
                       variant="contained"
                       color="primary"
                       component="span"
+                      className="buttonP"
                     >
                       Elegir otra imagen
                     </ButtonM>
                   </label>
-                  <Button variant="primary" onClick={handleClose}>
+                  <Button
+                    variant="primary"
+                    onClick={handleClose}
+                    className="buttonP"
+                  >
                     Guardar imagen
                   </Button>
                 </Modal.Footer>
@@ -377,7 +383,11 @@ const EditProfile = () => {
                 className="d-flex justify-content-start align-items-center mt-5"
               >
                 {isReady() ? (
-                  <Button variant="dark" className="text" onClick={handleEdit}>
+                  <Button
+                    variant="dark"
+                    className="text buttonP"
+                    onClick={handleEdit}
+                  >
                     Actualizar
                   </Button>
                 ) : (

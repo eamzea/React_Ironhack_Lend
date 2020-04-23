@@ -49,6 +49,13 @@ const SignUp = () => {
 
   const [successState, updateSuccessState] = useState(false);
 
+  const [validationState, updateValidationState] = useState({
+    email: true,
+    username: true,
+  });
+
+  const [validationWayState, updateValidationWayState] = useState({});
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     updateUserState(Object.assign({}, userState, { [name]: value }));
@@ -63,23 +70,72 @@ const SignUp = () => {
     if (
       userState.name !== "" &&
       userState.username !== "" &&
+      validationState.username === true &&
       userState.email !== "" &&
+      validationState.email === true &&
+      userState.phone !== "" &&
       userState.password !== "" &&
       userState.confirmPassword !== "" &&
       userState.terms === true
     ) {
       if (userState.password === userState.confirmPassword) {
-        return true;
-      } else {
-        return false;
+        if (validationWayState.email || validationWayState.phone) {
+          return true;
+        } else {
+          return false;
+        }
       }
     }
+  };
+
+  const validateEmail = (e) => {
+    const info = e.target.value;
+    const lendService = new LendService();
+
+    lendService.validateEmail(info).then((res) => {
+      if (res.data.status === true) {
+        updateValidationState(
+          Object.assign({}, validationState, { email: false })
+        );
+      } else {
+        updateUserState(Object.assign({}, userState, { email: info }));
+        updateValidationState(
+          Object.assign({}, validationState, { email: true })
+        );
+      }
+    });
+  };
+
+  const validateUsername = (e) => {
+    const info = e.target.value;
+    const lendService = new LendService();
+
+    lendService.validateUsername(info).then((res) => {
+      if (res.data.status === true) {
+        updateValidationState(
+          Object.assign({}, validationState, { username: false })
+        );
+      } else {
+        updateUserState(Object.assign({}, userState, { username: info }));
+        updateValidationState(
+          Object.assign({}, validationState, { username: true })
+        );
+      }
+    });
+  };
+
+  const handleValidation = (e) => {
+    const { value, checked } = e.target;
+
+    updateValidationWayState({ [value]: checked });
   };
 
   const handleRegister = () => {
     const lendService = new LendService();
 
-    lendService.signUp(userState).then((res) => {
+    const user = { ...userState, device: validationWayState };
+
+    lendService.signUp(user).then((res) => {
       updateSuccessState(true);
     });
   };
@@ -87,7 +143,7 @@ const SignUp = () => {
   return (
     <>
       {successState ? (
-        <SuccessRegistration />
+        <SuccessRegistration device={validationWayState} />
       ) : (
         <Container
           fluid
@@ -98,7 +154,7 @@ const SignUp = () => {
               <Col xs={11} lg={4} className="signup-box">
                 <p className="h3 text-center titles">Registra tu cuenta</p>
                 <Row className="justify-content-center align-items-center my-5">
-                  <Col xs={8}>
+                  <Col xs={10} md={8}>
                     <Grid container spacing={1} alignItems="center">
                       <Grid item>
                         <Face />
@@ -114,39 +170,63 @@ const SignUp = () => {
                       </Grid>
                     </Grid>
                   </Col>
-                  <Col xs={8}>
+                  <Col xs={10} md={8}>
                     <Grid container spacing={1} alignItems="center">
                       <Grid item>
                         <AccountCircle />
                       </Grid>
                       <Grid item>
-                        <CssTextField
-                          id="input-with-icon-grid"
-                          label="Usuario"
-                          className="text"
-                          name="username"
-                          onChange={handleChange}
-                        />
+                        {validationState.username ? (
+                          <CssTextField
+                            id="input-with-icon-grid"
+                            label="Usuario"
+                            className="text"
+                            name="username"
+                            onChange={validateUsername}
+                          />
+                        ) : (
+                          <CssTextField
+                            error
+                            id="input-with-icon-grid"
+                            label="Usuario"
+                            className="text"
+                            name="username"
+                            onChange={validateUsername}
+                            helperText="Este usuario ya está registrado"
+                          />
+                        )}
                       </Grid>
                     </Grid>
                   </Col>
-                  <Col xs={8}>
+                  <Col xs={10} md={8}>
                     <Grid container spacing={1} alignItems="center">
                       <Grid item>
                         <MailOutline />
                       </Grid>
                       <Grid item>
-                        <CssTextField
-                          id="input-with-icon-grid"
-                          label="Correo"
-                          className="text"
-                          name="email"
-                          onChange={handleChange}
-                        />
+                        {validationState.email ? (
+                          <CssTextField
+                            id="input-with-icon-grid"
+                            label="Correo"
+                            className="text"
+                            name="email"
+                            onChange={validateEmail}
+                          />
+                        ) : (
+                          <CssTextField
+                            error
+                            id="input-with-icon-grid"
+                            label="Correo"
+                            className="text"
+                            name="email"
+                            onChange={validateEmail}
+                            helperText="Este correo ya está registrado."
+                          />
+                        )}
                       </Grid>
                     </Grid>
                   </Col>
-                  <Col xs={8}>
+                  <Col xs={10} md={8}>
                     <Grid container spacing={1} alignItems="center">
                       <Grid item>
                         <PhoneIphoneOutlined />
@@ -162,7 +242,7 @@ const SignUp = () => {
                       </Grid>
                     </Grid>
                   </Col>
-                  <Col xs={8}>
+                  <Col xs={10} md={8}>
                     <Grid container spacing={1} alignItems="center">
                       <Grid item>
                         <VpnKey />
@@ -179,7 +259,7 @@ const SignUp = () => {
                       </Grid>
                     </Grid>
                   </Col>
-                  <Col xs={8}>
+                  <Col xs={10} md={8}>
                     <Grid container spacing={1} alignItems="center">
                       <Grid item>
                         <VpnKey />
@@ -196,13 +276,10 @@ const SignUp = () => {
                       </Grid>
                     </Grid>
                   </Col>
-                  <Col xs={8} className="my-5">
+                  <Col xs={10} md={8} className="mt-5">
                     <Grid container spacing={1} alignItems="center">
                       <Grid item>
-                        <Form.Group
-                          controlId="formBasicCheckbox"
-                          className="m-0"
-                        >
+                        <Form.Group controlId="terms" className="m-0">
                           <Form.Check
                             type="checkbox"
                             label="Acepto Términos y condiciones"
@@ -213,8 +290,41 @@ const SignUp = () => {
                       </Grid>
                     </Grid>
                   </Col>
+                  <Col xs={10} md={8} className="my-3">
+                    <p className="titles h5">Validar tu cuenta mediante:</p>
+                    <Grid
+                      container
+                      spacing={1}
+                      alignItems="center"
+                      className="my-3"
+                    >
+                      <Grid item>
+                        <Form.Check
+                          controlId="email"
+                          inline
+                          type="radio"
+                          label="Correo"
+                          name="validationWay"
+                          value="email"
+                          id="email"
+                          onChange={handleValidation}
+                        />
+                        <Form.Check
+                          controlId="phone"
+                          inline
+                          type="radio"
+                          label="Celular"
+                          name="validationWay"
+                          value="phone"
+                          id="phone"
+                          onChange={handleValidation}
+                        />
+                      </Grid>
+                    </Grid>
+                  </Col>
                   <Col
-                    xs={8}
+                    xs={10}
+                    md={8}
                     className="d-flex justify-content-start align-items-center"
                   >
                     {isReady() ? (

@@ -75,7 +75,7 @@ const RegisterP = () => {
           className="d-flex justify-content-center align-items-center"
         >
           <Link to="/signup">
-            <Button variant="dark" size="lg" className="text">
+            <Button variant="dark" size="lg" className="text buttonP">
               Únete
             </Button>
           </Link>

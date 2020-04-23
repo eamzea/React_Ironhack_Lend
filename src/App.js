@@ -11,6 +11,7 @@ import RegisterP from "./components/Register";
 import Home from "./components/Home";
 import Results from "./components/Results";
 import SignUp from "./components/SignUp";
+import Verification from "./components/Verification";
 import Login from "./components/Login";
 import Profile from "./components/Profile";
 import AddNewStuff from "./components/AddNewStuff";
@@ -46,6 +47,7 @@ function App() {
         <Route exact path="/login" component={Login} />
         <Route path="/register" component={RegisterP} />
         <Route path="/signup" component={SignUp} />
+        <Route path="/verification" component={Verification} />
         <ProtectedRoute
           path="/edit-profile/:username"
           component={EditProfile}

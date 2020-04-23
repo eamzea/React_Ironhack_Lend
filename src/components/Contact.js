@@ -64,7 +64,14 @@ const Contact = () => {
       ...stuffSelectedState,
       (stuffSelectedState[stuff].checked = check),
     ]);
-    totalPrices();
+    if (check) {
+      totalPrices();
+    } else {
+      updateTotalPriceState([
+        ...totalPriceState,
+        -ownerStuffState[stuff].priceLend,
+      ]);
+    }
   };
 
   const handleStartDate = (name) => {
@@ -219,10 +226,10 @@ const Contact = () => {
                     ¿En qué artículos estás interesado?
                   </p>
                   <FormGroup row>
-                    <div className="d-flex justify-content-around align-items-center">
+                    <div className="d-flex justify-content-around align-items-center flex-wrap">
                       {ownerStuffState.map((e, i) => {
                         return (
-                          <div className="mx-2">
+                          <div className="m-2">
                             <FormControlLabel
                               className="text text-dark m-0 bg-white rounded px-3 py-2"
                               control={
@@ -330,14 +337,14 @@ const Contact = () => {
           {isReady() ? (
             <Button
               variant="dark"
-              className="text p-2"
+              className="text p-2 buttonP"
               onClick={handleContactEmail}
             >
               <MailOutlineIcon className="mr-3" />
               Correo
             </Button>
           ) : (
-            <Button variant="dark" className="text p-2" disabled>
+            <Button variant="dark" className="text p-2 buttonP" disabled>
               <MailOutlineIcon className="mr-3" />
               Correo
             </Button>
@@ -347,14 +354,14 @@ const Contact = () => {
           {isReady() ? (
             <Button
               variant="dark"
-              className="text p-2"
+              className="text p-2 buttonP"
               onClick={handleContactWhats}
             >
               <WhatsAppIcon className="mr-3" />
               WhatsApp
             </Button>
           ) : (
-            <Button variant="dark" className="text p-2" disabled>
+            <Button variant="dark" className="text p-2 buttonP" disabled>
               <WhatsAppIcon className="mr-3" />
               WhatsApp
             </Button>
@@ -372,7 +379,7 @@ const Contact = () => {
           className="p-3 d-flex justify-content-center align-items-center"
         >
           <Link to="/">
-            <Button variant="dark" className="text p-2">
+            <Button variant="dark" className="text p-2 buttonP">
               Nueva Búsqueda
             </Button>
           </Link>

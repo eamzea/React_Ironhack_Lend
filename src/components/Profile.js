@@ -1,7 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import UserContext from "../utils/user.context";
 import { Link, useParams } from "react-router-dom";
 import LendService from "../services/lendService";
-import { Container, Row, Col, Button, Image, Form } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  Image,
+  Form,
+  Modal,
+} from "react-bootstrap";
 import { makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
 
@@ -50,6 +59,14 @@ const Profile = () => {
 
   const [recommendationState, updateRecommendationState] = useState({});
 
+  const [recommSentState, updateRecommSentState] = useState(false);
+
+  const [deleteModalState, updateDeleteModalState] = useState(false);
+
+  const [indexStuffState, updateIndexStuffState] = useState(0);
+
+  const { user } = useContext(UserContext);
+
   const showBox = () => {
     updateBoxRecommendatioState(true);
   };
@@ -60,8 +77,46 @@ const Profile = () => {
       Object.assign({}, recommendationState, { [name]: value })
     );
   };
+
+  const handleShow = (e) => {
+    updateIndexStuffState(e.target.id);
+    updateDeleteModalState(true);
+  };
+
+  const handleClose = () => updateDeleteModalState(false);
+
+  const handleDelete = async () => {
+    const lendService = new LendService();
+
+    await lendService.deleteStuff(ownerStuffState[indexStuffState]._id);
+
+    updateIndexStuffState(0);
+    handleClose();
+    getProfileInfo();
+  };
+
+  const toggleAvailable = async (e) => {
+    const lendService = new LendService();
+
+    await lendService.toggleAvailability(e.target.name, e.target.value);
+
+    getProfileInfo();
+  };
+
   const sendRecom = () => {
-    console.log("click");
+    const lendService = new LendService();
+
+    updateRecommendationState(
+      Object.assign({}, recommendationState, { name: user._id })
+    );
+
+    lendService
+      .sendRecommendation(recommendationState, userInfoState._id)
+      .then((res) => {
+        updateRecommendationState({});
+        updateRecommSentState(true);
+        getProfileInfo();
+      });
   };
 
   const getProfileInfo = async () => {
@@ -75,6 +130,18 @@ const Profile = () => {
     updateOwnerRecommendationState([...res.data.recom]);
   };
 
+  const isReady = () => {
+    if (
+      recommendationState.details &&
+      recommendationState.details.length > 0 &&
+      recommendationState.rate
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   useEffect(() => {
     getProfileInfo();
   }, []);
@@ -83,7 +150,7 @@ const Profile = () => {
     <Container fluid className="profile-page">
       <Row className="justify-content-center align-items-center">
         <Col xs={11} className="profile-row mt-5">
-          {ownerState && !userInfoState.validatedEmail && (
+          {ownerState && !userInfoState.validatedProfile && (
             <Row className="profile-box-row p-2">
               <div class="alert alert-danger" role="alert">
                 <p className="titles m-0 h3">
@@ -93,7 +160,7 @@ const Profile = () => {
             </Row>
           )}
           <Row className="profile-box-row p-2">
-            <p className="text-white h4 titles m-0">
+            <p className="text-white text-center h4 titles m-0">
               Miembro desde : {userInfoState.since}
             </p>
           </Row>
@@ -125,9 +192,6 @@ const Profile = () => {
               <p className="text-white h5 my-2 text">
                 Artículos totales : {userInfoState.stuffs.length}
               </p>
-              <p className="text-white h5 my-2 text">
-                Transacciones totales : 10
-              </p>
             </Col>
           </Row>
           {ownerState ? (
@@ -138,7 +202,7 @@ const Profile = () => {
                 className="d-flex justify-content-center align-items-center"
               >
                 <Link to={`/edit-profile/${username}`}>
-                  <Button variant="dark" size="lg">
+                  <Button variant="dark" size="lg" className="buttonP">
                     Editar perfil
                   </Button>
                 </Link>
@@ -152,7 +216,7 @@ const Profile = () => {
                 className="d-flex justify-content-center align-items-center"
               >
                 <Link to={`/contact/${username}`}>
-                  <Button variant="dark" size="lg">
+                  <Button variant="dark" size="lg" className="buttonP">
                     Contactar
                   </Button>
                 </Link>
@@ -166,7 +230,7 @@ const Profile = () => {
               <p className="text-white h2 titles my-3">Lista de Artículos</p>
             </Col>
             {userInfoState.stuffs && userInfoState.stuffs.length > 0 ? (
-              ownerStuffState.map((e) => {
+              ownerStuffState.map((e, i) => {
                 return (
                   <Col xs={11} className="profile-list py-3">
                     <Image
@@ -176,22 +240,47 @@ const Profile = () => {
                       rounded
                     />
                     <p className="text-white h2 titles">{e.name}</p>
-                    <p className="text-white h4 titles">
+                    <p className="h4 text-white titles">
                       Estatus :
                       {e.available ? (
-                        <span className="bg-success rounded p-3">
+                        <span className="text-white rounded p-3 span-available">
                           Disponible
                         </span>
                       ) : (
-                        <span className="bg-warning rounded p-3">Préstamo</span>
+                        <span className="rounded p-3 span-lend">Préstamo</span>
                       )}
                     </p>
+                    {ownerState && e.available ? (
+                      <Button
+                        variant="warning"
+                        size="lg"
+                        name={e._id}
+                        onClick={toggleAvailable}
+                        className="buttonP"
+                      >
+                        Prestar
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="success"
+                        size="lg"
+                        name={e._id}
+                        onClick={toggleAvailable}
+                        className="buttonP"
+                      >
+                        Devolver
+                      </Button>
+                    )}
                     {ownerState && (
-                      <Link to="/add-new">
-                        <Button variant="danger" size="lg">
-                          Quitar
-                        </Button>
-                      </Link>
+                      <Button
+                        variant="danger"
+                        size="lg"
+                        id={i}
+                        onClick={handleShow}
+                        className="buttonP"
+                      >
+                        Eliminar Artículo
+                      </Button>
                     )}
                   </Col>
                 );
@@ -201,13 +290,60 @@ const Profile = () => {
                 <p className="titles text-white h5">Aún no hay artículos</p>
               </Col>
             )}
+            {deleteModalState && (
+              <Modal
+                show={deleteModalState}
+                onHide={handleClose}
+                centered
+                backdrop="static"
+              >
+                <Modal.Header closeButton>
+                  <Modal.Title>
+                    ¿Estás seguro de borrar este artículo?
+                  </Modal.Title>
+                </Modal.Header>
+                <Modal.Body className="d-flex justify-content-center align-items-center">
+                  <Image
+                    src={ownerStuffState[indexStuffState].imgPath}
+                    width="100px"
+                    height="100px"
+                    rounded
+                    className="mx-3"
+                  />
+                  <p className="titles mx-3">
+                    {ownerStuffState[indexStuffState].name}
+                  </p>
+                  <p className="text mx-3">
+                    {ownerStuffState[indexStuffState].available
+                      ? "Disponible"
+                      : "Préstamo"}
+                  </p>
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button
+                    variant="dark"
+                    onClick={handleClose}
+                    className="buttonP"
+                  >
+                    Cancelar
+                  </Button>
+                  <Button
+                    variant="danger"
+                    onClick={handleDelete}
+                    className="buttonP"
+                  >
+                    Eliminar Artículo
+                  </Button>
+                </Modal.Footer>
+              </Modal>
+            )}
             {ownerState ? (
               <Col
                 xs={11}
                 className="d-flex justify-content-around align-items-center py-3"
               >
                 <Link to="/add-new-stuff">
-                  <Button variant="dark" size="lg">
+                  <Button variant="dark" size="lg" className="buttonP">
                     Agrega un nuevo artículo
                   </Button>
                 </Link>
@@ -218,61 +354,12 @@ const Profile = () => {
                 className="d-flex justify-content-around align-items-center py-3"
               >
                 <Link to="/">
-                  <Button variant="dark" size="lg">
+                  <Button variant="dark" size="lg" className="buttonP">
                     Buscar un nuevo artículo
                   </Button>
                 </Link>
               </Col>
             )}
-          </Row>
-        </Col>
-        <Col xs={11} className="profile-row my-3">
-          <Row className="profile-box-row p-3">
-            <Col xs={11}>
-              <p className="text-white h2 titles my-3">
-                Lista de Transacciones
-              </p>
-            </Col>
-            <Col xs={11} className="profile-list py-3">
-              <Image
-                src="https://static.emulatorgames.net/images/gameboy-advance/pokemon-fire-red-version-v1-1.jpg"
-                width="100px"
-                height="100px"
-                rounded
-              />
-              <p className="text-white h2 titles">Pokémon Edición Rojo Fuego</p>
-              <p className="text-white h4 titles">
-                Estatus :{" "}
-                <span className="bg-success rounded p-3">Devuelto</span>
-              </p>
-              {ownerState && (
-                <Link to="/add-new">
-                  <Button variant="success" size="lg">
-                    Solicitar
-                  </Button>
-                </Link>
-              )}
-            </Col>
-            <Col xs={11} className="profile-list py-3">
-              <Image
-                src="https://static.emulatorgames.net/images/gameboy-advance/pokemon-fire-red-version-v1-1.jpg"
-                width="100px"
-                height="100px"
-                rounded
-              />
-              <p className="text-white h2 titles">Pokémon Edición Rojo Fuego</p>
-              <p className="text-white h4 titles">
-                Estatus :{" "}
-                <span className="bg-danger rounded p-3">Préstamo</span>
-              </p>
-              {ownerState && (
-                <Link to="/add-new">
-                  <Button variant="success" size="lg">
-                    Devolver
-                  </Button>
-                </Link>
-              )}
-            </Col>
           </Row>
         </Col>
         <Col xs={11} className="profile-row my-3">
@@ -288,10 +375,12 @@ const Profile = () => {
                     return (
                       <Col xs={5} md={3} className="py-3">
                         <div className="profile-recommendation ">
-                          <Avatar className={classes.medium} />
-                          <p className="text-white h2 titles">{e.name}</p>
+                          <p className="text-white h2 titles">{e.username}</p>
                           <p className="text-white h4 text">{e.details}</p>
                           <p className="text-white h5 text">{e.date}</p>
+                          <p className="text-white h5 text">
+                            Calificación : {e.rate}
+                          </p>
                         </div>
                       </Col>
                     );
@@ -307,89 +396,161 @@ const Profile = () => {
             </Col>
             {boxRecommendationState ? (
               <>
-                <Col xs={11} className="my-3 ">
-                  <p className="titles text-white h3 text-center">
-                    Agrega tu recomendación
-                  </p>
-                </Col>
-                <Col
-                  xs={11}
-                  className="my-3 d-flex justify-content-around align-items-center"
-                >
-                  <Form.Row className="contact-form justify-content-around">
-                    <Col className="contact-col">
-                      <Form.Label className="text text-white">
-                        Nombre
-                      </Form.Label>
-                      <Form.Control
-                        name="name"
-                        size="lg"
-                        type="text"
-                        placeholder="Juan Pérez"
-                        className="text"
-                        onChange={handleChange}
-                      />
-                    </Col>
-                    <Col className="contact-col">
-                      <Form.Label className="text text-white">
-                        Descripción
-                      </Form.Label>
-                      <Form.Control
-                        name="details"
-                        size="lg"
-                        type="text"
-                        placeholder="Excelentes artículos"
-                        className="text"
-                        onChange={handleChange}
-                      />
-                    </Col>
-                    <Col className="contact-col">
-                      <Form.Label className="text text-white">
-                        Calificación
-                      </Form.Label>
-                      <Form.Control
-                        as="select"
-                        multiple
-                        onChange={handleChange}
-                        name="rate"
-                      >
-                        <option value="1" className="text">
-                          1
-                        </option>
-                        <option value="2" className="text">
-                          2
-                        </option>
-                        <option value="3" className="text">
-                          3
-                        </option>
-                        <option value="4" className="text">
-                          4
-                        </option>
-                        <option value="5" className="text">
-                          5
-                        </option>
-                      </Form.Control>
-                    </Col>
-                  </Form.Row>
-                </Col>
-                <Col
-                  xs={11}
-                  className="my-3 d-flex justify-content-center align-items-center"
-                >
-                  <Button variant="dark" size="lg" onClick={sendRecom}>
-                    Enviar
-                  </Button>
-                </Col>
+                {user ? (
+                  <>
+                    {user.username !== userInfoState.username && (
+                      <>
+                        <Col xs={11} className="my-3 ">
+                          <p className="titles text-white h3 text-center">
+                            Agrega tu recomendación
+                          </p>
+                        </Col>
+                        <Col
+                          xs={11}
+                          className="my-3 d-flex justify-content-around align-items-center"
+                        >
+                          <Form.Row className="contact-form justify-content-around">
+                            <Col className="contact-col">
+                              <Form.Label className="text text-white">
+                                Nombre
+                              </Form.Label>
+                              <Form.Control
+                                name="name"
+                                size="lg"
+                                type="text"
+                                value={user.name}
+                                className="text"
+                              />
+                            </Col>
+                            <Col className="contact-col">
+                              <Form.Label className="text text-white">
+                                Descripción
+                              </Form.Label>
+                              <Form.Control
+                                name="details"
+                                size="lg"
+                                type="text"
+                                placeholder="Excelentes artículos"
+                                className="text"
+                                onChange={handleChange}
+                              />
+                            </Col>
+                            <Col className="contact-col">
+                              <Form.Label className="text text-white">
+                                Calificación
+                              </Form.Label>
+                              <Form.Control
+                                as="select"
+                                multiple
+                                onChange={handleChange}
+                                name="rate"
+                              >
+                                <option value="1" className="text">
+                                  1
+                                </option>
+                                <option value="2" className="text">
+                                  2
+                                </option>
+                                <option value="3" className="text">
+                                  3
+                                </option>
+                                <option value="4" className="text">
+                                  4
+                                </option>
+                                <option value="5" className="text">
+                                  5
+                                </option>
+                              </Form.Control>
+                            </Col>
+                          </Form.Row>
+                        </Col>
+                        <Col
+                          xs={11}
+                          className="my-3 d-flex justify-content-center align-items-center"
+                        >
+                          {isReady() ? (
+                            <Button
+                              variant="dark"
+                              size="lg"
+                              onClick={sendRecom}
+                              className="buttonP"
+                            >
+                              Enviar
+                            </Button>
+                          ) : (
+                            <Button
+                              disabled
+                              variant="dark"
+                              size="lg"
+                              onClick={sendRecom}
+                            >
+                              Enviar
+                            </Button>
+                          )}
+                        </Col>
+                      </>
+                    )}
+                  </>
+                ) : (
+                  <Col
+                    xs={11}
+                    className="my-3 d-flex justify-content-center align-items-center"
+                  >
+                    <p className="titles text-white h3 text-center">
+                      Inicia sesión para dejar tus comentarios
+                    </p>
+                  </Col>
+                )}
               </>
             ) : (
-              <Col
-                xs={11}
-                className="my-3 d-flex justify-content-center align-items-center"
-              >
-                <Button variant="dark" size="lg" onClick={showBox}>
-                  Agregar una recomendación
-                </Button>
-              </Col>
+              <>
+                {user ? (
+                  <>
+                    {user.username !== userInfoState.username && (
+                      <>
+                        {recommSentState ? (
+                          <Col
+                            xs={11}
+                            className="my-3 d-flex justify-content-center align-items-center"
+                          >
+                            <p className="titles text-white h3 text-center">
+                              Tu recomendación ha sido agregada
+                            </p>
+                          </Col>
+                        ) : (
+                          <Col
+                            xs={11}
+                            className="my-3 d-flex justify-content-center align-items-center"
+                          >
+                            <Button
+                              variant="dark"
+                              size="lg"
+                              onClick={showBox}
+                              className="buttonP"
+                            >
+                              Agregar una recomendación
+                            </Button>
+                          </Col>
+                        )}
+                      </>
+                    )}
+                  </>
+                ) : (
+                  <Col
+                    xs={11}
+                    className="my-3 d-flex justify-content-center align-items-center"
+                  >
+                    <Button
+                      variant="dark"
+                      size="lg"
+                      onClick={showBox}
+                      className="buttonP"
+                    >
+                      Agregar una recomendación
+                    </Button>
+                  </Col>
+                )}
+              </>
             )}
           </Row>
         </Col>
@@ -397,7 +558,7 @@ const Profile = () => {
           <Col xs={11} className="my-3">
             <Row className="p-3 justify-content-center align-items-center">
               <Link to="/contact">
-                <Button variant="dark" size="lg">
+                <Button variant="dark" size="lg" className="buttonP">
                   Contactar
                 </Button>
               </Link>

@@ -24,6 +24,21 @@ class LendService {
     return response;
   };
 
+  verificationAccount = async (code) => {
+    const response = await this.service.post("/verificate-account", code);
+    return response;
+  };
+
+  validateEmail = async (email) => {
+    const response = await this.service.get(`/validate-email/${email}`);
+    return response;
+  };
+
+  validateUsername = async (username) => {
+    const response = await this.service.get(`/validate-username/${username}`);
+    return response;
+  };
+
   getProfile = async (username) => {
     const response = await this.service.get(`/profile/${username}`);
     return response;
@@ -56,6 +71,27 @@ class LendService {
 
   newStuff = async (stuff) => {
     const response = await this.service.post("/add-new-stuff", stuff);
+    return response;
+  };
+
+  deleteStuff = async (stuff) => {
+    const response = await this.service.post(`/delete-stuff/${stuff}`);
+    return response;
+  };
+
+  toggleAvailability = async (stuff, availability) => {
+    const response = await this.service.post(
+      `/toggle-stuff/${stuff}`,
+      availability
+    );
+    return response;
+  };
+
+  sendRecommendation = async (recomm, user) => {
+    const response = await this.service.post(
+      `/add-recommendation/${user}`,
+      recomm
+    );
     return response;
   };
 }

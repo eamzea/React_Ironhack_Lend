@@ -253,6 +253,7 @@ const AddNewStuff = () => {
                           variant="contained"
                           color="primary"
                           component="span"
+                          className="buttonP"
                         >
                           Subir imagen
                         </ButtonM>
@@ -301,11 +302,16 @@ const AddNewStuff = () => {
                           variant="contained"
                           color="primary"
                           component="span"
+                          className="buttonP"
                         >
                           Elegir otra imagen
                         </ButtonM>
                       </label>
-                      <Button variant="primary" onClick={handleClose}>
+                      <Button
+                        variant="primary"
+                        onClick={handleClose}
+                        className="buttonP"
+                      >
                         Guardar imagen
                       </Button>
                     </Modal.Footer>
@@ -317,7 +323,7 @@ const AddNewStuff = () => {
                     {isReady() ? (
                       <Button
                         variant="dark"
-                        className="text"
+                        className="text buttonP"
                         onClick={handleAdd}
                       >
                         Agregar artículo

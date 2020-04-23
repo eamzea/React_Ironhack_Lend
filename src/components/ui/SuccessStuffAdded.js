@@ -12,16 +12,16 @@ const SuccessRegistration = ({ updateModal }) => {
   };
 
   return (
-    <Container fluid className="success-page">
+    <Container fluid className="success-added-page">
       <Row className="my-5 success-row flex-column justify-content-center align-items-center">
         <RubberBand>
           <Col xs={12} className="my-5">
-            <p className="text h1 text-dark my-5 text-center">
-              Tu artìculo ha sido agregado con éxito
+            <p className="text h1 text-white my-5 text-center">
+              Tu artículo ha sido agregado con éxito
             </p>
           </Col>
           <Col xs={12} className="my-5 d-flex flex-column align-items-center">
-            <p className="text h1 text-dark my-5 text-center">
+            <p className="text h1 text-white my-5 text-center">
               ¿Deseas agregar otro?
             </p>
             <Button variant="dark" className="text" onClick={handleClick}>
@@ -30,7 +30,7 @@ const SuccessRegistration = ({ updateModal }) => {
           </Col>
           <Col xs={12} className="my-5">
             <Link to={`/profile/${user.username}`}>
-              <Button variant="dark" className="text">
+              <Button variant="dark" className="text buttonP">
                 Ir a mi perfil
               </Button>
             </Link>

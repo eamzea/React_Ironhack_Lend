@@ -39,6 +39,10 @@ const Login = () => {
     password: "",
   });
 
+  const [errorUserState, updateErrorUserState] = useState(false);
+
+  const [errorPassState, updateErrorPassState] = useState(false);
+
   const { updateUser } = useContext(UserContext);
 
   const handleChange = (e) => {
@@ -58,6 +62,13 @@ const Login = () => {
     const lendService = new LendService();
 
     lendService.logIn(userState).then((res) => {
+      if (res.data.messagePass) {
+        updateErrorUserState(false);
+        return updateErrorPassState(true);
+      }
+      if (res.data.messageUser) {
+        return updateErrorUserState(true);
+      }
       updateUserState({ credential: "", password: "" });
       updateUser(res.data);
       history.push(`/`);
@@ -72,15 +83,15 @@ const Login = () => {
             <p className="h3 text-center titles">Inicia sesión</p>
             <Row className="justify-content-center align-items-center">
               <Col
-                xs={8}
-                md={10}
+                xs={11}
+                md={8}
+                lg={10}
                 className="d-flex justify-content-around align-items-center my-3"
               >
-                <AccountCircle />
                 <MailOutline />
                 <CssTextField
                   id="input-with-icon-grid"
-                  label="Correo o Username"
+                  label="Correo"
                   className="text"
                   name="credential"
                   onChange={handleChange}
@@ -88,27 +99,56 @@ const Login = () => {
               </Col>
 
               <Col
-                xs={8}
-                md={10}
+                xs={11}
+                md={8}
+                lg={10}
                 className="d-flex justify-content-around align-items-center my-3"
               >
                 <VpnKey />
-                <CssTextField
-                  id="input-with-icon-grid"
-                  label="Contraseña"
-                  className="text"
-                  type="password"
-                  name="password"
-                  onChange={handleChange}
-                />
+                {errorPassState ? (
+                  <CssTextField
+                    error
+                    id="input-with-icon-grid"
+                    label="Contraseña"
+                    className="text"
+                    type="password"
+                    name="password"
+                    onChange={handleChange}
+                    helperText="Tu contraseña no es correcta"
+                  />
+                ) : (
+                  <CssTextField
+                    id="input-with-icon-grid"
+                    label="Contraseña"
+                    className="text"
+                    type="password"
+                    name="password"
+                    onChange={handleChange}
+                  />
+                )}
               </Col>
 
+              {errorUserState && (
+                <Col
+                  xs={11}
+                  className="d-flex justify-content-around align-items-center my-3"
+                >
+                  <p className="h5 text-center titles">
+                    No hemos encontrado este usuario
+                  </p>
+                </Col>
+              )}
+
               <Col
-                xs={10}
+                xs={11}
                 className="d-flex justify-content-around align-items-center my-3"
               >
                 {isReady() ? (
-                  <Button variant="dark" className="text" onClick={handleLogin}>
+                  <Button
+                    variant="dark"
+                    className="text buttonP"
+                    onClick={handleLogin}
+                  >
                     Inicia sesión
                   </Button>
                 ) : (

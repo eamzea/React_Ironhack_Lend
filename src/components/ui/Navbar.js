@@ -54,7 +54,7 @@ const NavbarP = () => {
             className="text"
           />
           <Link to={`/results/${searchState}`}>
-            <Button variant="dark" className="text">
+            <Button variant="dark" className="text buttonP">
               Buscar
             </Button>
           </Link>

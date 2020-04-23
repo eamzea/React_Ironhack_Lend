@@ -3,20 +3,19 @@ import { Link } from "react-router-dom";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import RubberBand from "react-reveal/RubberBand";
 
-const SuccessRegistration = ({ device }) => {
+const SuccessValidation = () => {
   return (
-    <Container fluid className="success-page">
+    <Container fluid className="success-added-page">
       <Row className="my-5 success-row flex-column justify-content-center align-items-center">
         <RubberBand>
-          <Col xs={12} className="my-5">
-            <p className="text h1 text-dark my-5 text-center">
-              Te hemos enviado un {device.email ? "correo" : "mensaje"} para
-              poder verificar tu {device.email ? "correo" : "teléfono"}
+          <Col xs={12} className="my-5 py-5">
+            <p className="titles h1 text-white my-5 py-5 text-center">
+              Tu cuenta ha sido validada con éxito
             </p>
           </Col>
           <Col xs={12} className="my-5">
             <Link to="/">
-              <Button variant="dark" className="text">
+              <Button variant="dark" className="text buttonP">
                 Ir al inicio
               </Button>
             </Link>
@@ -27,4 +26,4 @@ const SuccessRegistration = ({ device }) => {
   );
 };
 
-export default SuccessRegistration;
+export default SuccessValidation;

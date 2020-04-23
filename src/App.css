@@ -6,6 +6,17 @@
   font-family: "Quicksand", sans-serif;
 }
 
+button,
+.buttonP,
+.btn {
+  transition: all 0.5s !important;
+}
+
+.buttonP:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
 body {
   margin: 0;
 }
@@ -45,11 +56,28 @@ body {
   width: 50px;
 }
 
+@media (max-width: 540px) {
+  .navbarP .navbar form {
+    width: 50%;
+  }
+
+  .navbarP .navbar .navbar-brand {
+    margin: 0;
+  }
+}
+
 .home {
   background-image: url("/images/home-bg.png");
   background-size: cover;
-  margin-top: 9vh;
+  margin-top: 9.5vh;
   height: 100vh;
+}
+
+@media (max-width: 540px) {
+  .home {
+    margin-top: 8.5vh;
+    background-position: center;
+  }
 }
 
 .search-row {
@@ -179,9 +207,32 @@ body {
   background-position: center;
 }
 
+.success-added-page {
+  background-image: url("/images/added-stuff-bg.png");
+  background-size: cover;
+  margin-top: 9.5vh;
+  height: 90vh;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
 .success-row {
   justify-content: center;
   align-items: center;
+}
+
+.verification-page {
+  background-image: url("/images/verification-bg.png");
+  background-size: cover;
+  background-position: center;
+  margin-top: 9vh;
+  min-height: 90vh;
+}
+
+.failed-box {
+  background-color: rgba(255, 255, 255, 0.85);
+  border-radius: 25px;
+  padding: 10px;
 }
 
 .login-page {
@@ -208,6 +259,7 @@ body {
   .login-page {
     background-image: url("/images/login-mobile-bg.png");
     background-position: center;
+    margin-top: 8.5vh;
   }
   .login-row {
     justify-content: center;
@@ -236,9 +288,18 @@ body {
 
 .profile-list {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.span-available {
+  border-bottom: 5px solid white;
+}
+
+.span-lend {
+  color: #a26464;
+  border-bottom: 5px solid #a26464;
 }
 
 .profile-recommendation {
@@ -249,6 +310,10 @@ body {
 }
 
 @media (max-width: 768px) {
+  .profile-page {
+    margin-top: 6vh;
+  }
+
   .profile-box-row {
     flex-direction: column;
     justify-content: space-around;
@@ -256,6 +321,7 @@ body {
   }
   .profile-list {
     flex-direction: column;
+    justify-content: space-around;
   }
 
   .profile-list > * {
@@ -266,7 +332,6 @@ body {
 .edit-profile-page {
   background-image: url("/images/signup-bg.png");
   background-size: cover;
-  object-fit: cover;
   margin-top: 9.5vh;
   height: 100vh;
 }
@@ -290,9 +355,15 @@ body {
 }
 
 @media (max-width: 992px) {
+  .edit-profile-page {
+    background-position: center;
+    margin-top: 8.5vh;
+    height: 100vh;
+  }
+
   .edit-profile-box {
     margin: 0 auto;
-    background-color: rgba(255, 255, 255, 0.75);
+    background-color: rgba(255, 255, 255, 0.9);
   }
 }
 
@@ -315,6 +386,18 @@ body {
   border-radius: 25px;
   padding: 25px;
   margin-left: 20%;
+}
+
+@media (max-width: 992px) {
+  .addStuff-page {
+    background-position: right;
+    margin-top: 8.5vh;
+  }
+
+  .addStuff-box {
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0.85);
+  }
 }
 
 .contact-page {

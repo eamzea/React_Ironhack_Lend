@@ -6,13 +6,13 @@ import {
   Col,
   InputGroup,
   FormControl,
-  Button
+  Button,
 } from "react-bootstrap";
 
-const Home = props => {
+const Home = (props) => {
   const [searchState, updateSearchState] = useState("");
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     const { value } = e.target;
     updateSearchState(value);
   };
@@ -28,12 +28,14 @@ const Home = props => {
                 placeholder="¿Qué estás buscando?"
                 aria-label="¿Qué estás buscando?"
                 aria-describedby="basic-addon2"
-                onChange={e => handleChange(e)}
+                onChange={(e) => handleChange(e)}
                 name="search"
               />
               <InputGroup.Append>
                 <Link to={`/results/${searchState}`}>
-                  <Button variant="dark">Buscar</Button>
+                  <Button variant="dark" className="buttonP">
+                    Buscar
+                  </Button>
                 </Link>
               </InputGroup.Append>
             </InputGroup>

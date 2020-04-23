@@ -152,271 +152,268 @@ const EditProfile = () => {
       fluid
       className="edit-profile-page d-flex justify-content-center align-items-center"
     >
-      {loadingState ? (
-        <ModalLoader show={loadingState} />
-      ) : (
-        <Row className="my-5 edit-profile-row">
-          <RubberBand>
-            <Col xs={11} lg={4} className="edit-profile-box">
-              <p className="h3 text-center titles">Edita tu perfil</p>
-              <Row className="justify-content-center align-items-center my-5">
-                <Col
-                  xs={8}
-                  className="d-flex justify-content-center align-items-center"
-                >
-                  <Avatar src={user.profilePic} />
-                </Col>
-                <Col xs={8}>
-                  <Grid container spacing={1} alignItems="center">
-                    <Grid item>
-                      <Face />
-                    </Grid>
-                    <Grid item>
+      <ModalLoader show={loadingState} />
+      <Row className="my-5 edit-profile-row">
+        <RubberBand>
+          <Col xs={11} lg={4} className="edit-profile-box">
+            <p className="h3 text-center titles">Edita tu perfil</p>
+            <Row className="justify-content-center align-items-center my-5">
+              <Col
+                xs={8}
+                className="d-flex justify-content-center align-items-center"
+              >
+                <Avatar src={user.profilePic} />
+              </Col>
+              <Col xs={8}>
+                <Grid container spacing={1} alignItems="center">
+                  <Grid item>
+                    <Face />
+                  </Grid>
+                  <Grid item>
+                    <CssTextField
+                      defaultValue={user.name}
+                      id="input-with-icon-grid"
+                      label="Nombre"
+                      className="text"
+                      name="name"
+                      onChange={handleChange}
+                    />
+                  </Grid>
+                </Grid>
+              </Col>
+              <Col xs={8}>
+                <Grid container spacing={1} alignItems="center">
+                  <Grid item>
+                    <AccountCircle />
+                  </Grid>
+                  <Grid item>
+                    <CssTextField
+                      defaultValue={user.username}
+                      id="input-with-icon-grid"
+                      label="Usuario"
+                      className="text"
+                      name="username"
+                      onChange={handleChange}
+                    />
+                  </Grid>
+                </Grid>
+              </Col>
+              <Col xs={8}>
+                <Grid container spacing={1} alignItems="center">
+                  <Grid item>
+                    <MailOutline />
+                  </Grid>
+                  <Grid item>
+                    <CssTextField
+                      defaultValue={user.email}
+                      id="input-with-icon-grid"
+                      label="Correo"
+                      className="text"
+                      name="email"
+                      onChange={handleChange}
+                    />
+                  </Grid>
+                </Grid>
+              </Col>
+              <Col xs={8}>
+                <Grid container spacing={1} alignItems="center">
+                  <Grid item>
+                    <PhoneIphoneOutlined />
+                  </Grid>
+                  <Grid item>
+                    <CssTextField
+                      defaultValue={user.phone}
+                      id="input-with-icon-grid"
+                      label="Celular"
+                      className="text"
+                      name="phone"
+                      onChange={handleChange}
+                    />
+                  </Grid>
+                </Grid>
+              </Col>
+              <Col xs={8}>
+                <Grid container spacing={1} alignItems="center">
+                  <Grid item>
+                    <VpnKey />
+                  </Grid>
+                  <Grid item>
+                    {isReady() ? (
                       <CssTextField
-                        defaultValue={user.name}
                         id="input-with-icon-grid"
-                        label="Nombre"
+                        label="Nueva Contraseña"
                         className="text"
-                        name="name"
+                        name="password"
+                        type="password"
                         onChange={handleChange}
                       />
-                    </Grid>
-                  </Grid>
-                </Col>
-                <Col xs={8}>
-                  <Grid container spacing={1} alignItems="center">
-                    <Grid item>
-                      <AccountCircle />
-                    </Grid>
-                    <Grid item>
+                    ) : (
                       <CssTextField
-                        defaultValue={user.username}
+                        error
+                        helperText="Las contraseñas no coinciden"
                         id="input-with-icon-grid"
-                        label="Usuario"
+                        label="Nueva Contraseña"
                         className="text"
-                        name="username"
+                        name="password"
+                        type="password"
                         onChange={handleChange}
                       />
-                    </Grid>
+                    )}
                   </Grid>
-                </Col>
-                <Col xs={8}>
-                  <Grid container spacing={1} alignItems="center">
-                    <Grid item>
-                      <MailOutline />
-                    </Grid>
-                    <Grid item>
+                </Grid>
+              </Col>
+              <Col xs={8}>
+                <Grid container spacing={1} alignItems="center">
+                  <Grid item>
+                    <VpnKey />
+                  </Grid>
+                  <Grid item>
+                    {isReady() ? (
                       <CssTextField
-                        defaultValue={user.email}
                         id="input-with-icon-grid"
-                        label="Correo"
+                        label="Confirma Contraseña"
                         className="text"
-                        name="email"
+                        name="confirmPassword"
+                        type="password"
                         onChange={handleChange}
                       />
-                    </Grid>
-                  </Grid>
-                </Col>
-                <Col xs={8}>
-                  <Grid container spacing={1} alignItems="center">
-                    <Grid item>
-                      <PhoneIphoneOutlined />
-                    </Grid>
-                    <Grid item>
+                    ) : (
                       <CssTextField
-                        defaultValue={user.phone}
+                        error
+                        helperText="Las contraseñas no coinciden"
                         id="input-with-icon-grid"
-                        label="Celular"
+                        label="Confirma Contraseña"
                         className="text"
-                        name="phone"
+                        name="confirmPassword"
+                        type="password"
                         onChange={handleChange}
                       />
-                    </Grid>
+                    )}
                   </Grid>
-                </Col>
-                <Col xs={8}>
-                  <Grid container spacing={1} alignItems="center">
-                    <Grid item>
-                      <VpnKey />
-                    </Grid>
-                    <Grid item>
-                      {isReady() ? (
-                        <CssTextField
-                          id="input-with-icon-grid"
-                          label="Nueva Contraseña"
-                          className="text"
-                          name="password"
-                          type="password"
-                          onChange={handleChange}
-                        />
-                      ) : (
-                        <CssTextField
-                          error
-                          helperText="Las contraseñas no coinciden"
-                          id="input-with-icon-grid"
-                          label="Nueva Contraseña"
-                          className="text"
-                          name="password"
-                          type="password"
-                          onChange={handleChange}
-                        />
-                      )}
-                    </Grid>
-                  </Grid>
-                </Col>
-                <Col xs={8}>
-                  <Grid container spacing={1} alignItems="center">
-                    <Grid item>
-                      <VpnKey />
-                    </Grid>
-                    <Grid item>
-                      {isReady() ? (
-                        <CssTextField
-                          id="input-with-icon-grid"
-                          label="Confirma Contraseña"
-                          className="text"
-                          name="confirmPassword"
-                          type="password"
-                          onChange={handleChange}
-                        />
-                      ) : (
-                        <CssTextField
-                          error
-                          helperText="Las contraseñas no coinciden"
-                          id="input-with-icon-grid"
-                          label="Confirma Contraseña"
-                          className="text"
-                          name="confirmPassword"
-                          type="password"
-                          onChange={handleChange}
-                        />
-                      )}
-                    </Grid>
-                  </Grid>
-                </Col>
-                <Col xs={8}>
-                  <div className={classes.root}>
-                    <input
-                      accept="image/*"
-                      className={classes.input}
-                      id="icon-button-file"
-                      name="photo"
-                      type="file"
-                      onChange={handleFile}
-                    />
-                    <label htmlFor="icon-button-file">
-                      <IconButton
-                        color="primary"
-                        aria-label="upload picture"
-                        component="span"
-                      >
-                        <PhotoCamera />
-                      </IconButton>
-                    </label>
-                    <input
-                      accept="image/*"
-                      className={classes.input}
-                      id="contained-button-file"
-                      name="img"
-                      type="file"
-                      onChange={handleFile}
-                    />
-                    <label htmlFor="contained-button-file">
-                      <ButtonM
-                        variant="contained"
-                        color="primary"
-                        component="span"
-                        className="buttonP"
-                      >
-                        Subir imagen
-                      </ButtonM>
-                    </label>
-                  </div>
-                </Col>
-                <Modal show={show} onHide={handleClose}>
-                  <Modal.Header closeButton>
-                    <Modal.Title>Imagen seleccionada</Modal.Title>
-                  </Modal.Header>
-                  <Modal.Body className="d-flex justify-content-center align-items-center">
-                    <img
-                      className="edit-profile-modal rounded-circle"
-                      src={userFileState}
-                      alt="Imagen cargada por el usuario"
-                    />
-                  </Modal.Body>
-                  <Modal.Footer>
-                    <input
-                      accept="image/*"
-                      className={classes.input}
-                      id="icon-button-file"
-                      name="photo"
-                      type="file"
-                      onChange={handleFile}
-                    />
-                    <label htmlFor="icon-button-file">
-                      <IconButton
-                        color="primary"
-                        aria-label="upload picture"
-                        component="span"
-                      >
-                        <PhotoCamera />
-                      </IconButton>
-                    </label>
-                    <input
-                      accept="image/*"
-                      className={classes.input}
-                      id="contained-button-file"
-                      name="img"
-                      type="file"
-                      onChange={handleFile}
-                    />
-                    <label htmlFor="contained-button-file">
-                      <ButtonM
-                        variant="contained"
-                        color="primary"
-                        component="span"
-                        className="buttonP"
-                      >
-                        Elegir otra imagen
-                      </ButtonM>
-                    </label>
-                    <Button
-                      variant="primary"
-                      onClick={handleSave}
+                </Grid>
+              </Col>
+              <Col xs={8}>
+                <div className={classes.root}>
+                  <input
+                    accept="image/*"
+                    className={classes.input}
+                    id="icon-button-file"
+                    name="photo"
+                    type="file"
+                    onChange={handleFile}
+                  />
+                  <label htmlFor="icon-button-file">
+                    <IconButton
+                      color="primary"
+                      aria-label="upload picture"
+                      component="span"
+                    >
+                      <PhotoCamera />
+                    </IconButton>
+                  </label>
+                  <input
+                    accept="image/*"
+                    className={classes.input}
+                    id="contained-button-file"
+                    name="img"
+                    type="file"
+                    onChange={handleFile}
+                  />
+                  <label htmlFor="contained-button-file">
+                    <ButtonM
+                      variant="contained"
+                      color="primary"
+                      component="span"
                       className="buttonP"
                     >
-                      Guardar imagen
-                    </Button>
-                  </Modal.Footer>
-                </Modal>
-                <Col
-                  xs={8}
-                  className="d-flex justify-content-start align-items-center mt-5"
-                >
-                  {isReady() ? (
-                    <Button
-                      variant="dark"
-                      className="text buttonP"
-                      onClick={handleEdit}
+                      Subir imagen
+                    </ButtonM>
+                  </label>
+                </div>
+              </Col>
+              <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                  <Modal.Title>Imagen seleccionada</Modal.Title>
+                </Modal.Header>
+                <Modal.Body className="d-flex justify-content-center align-items-center">
+                  <img
+                    className="edit-profile-modal rounded-circle"
+                    src={userFileState}
+                    alt="Imagen cargada por el usuario"
+                  />
+                </Modal.Body>
+                <Modal.Footer>
+                  <input
+                    accept="image/*"
+                    className={classes.input}
+                    id="icon-button-file"
+                    name="photo"
+                    type="file"
+                    onChange={handleFile}
+                  />
+                  <label htmlFor="icon-button-file">
+                    <IconButton
+                      color="primary"
+                      aria-label="upload picture"
+                      component="span"
                     >
-                      Actualizar
-                    </Button>
-                  ) : (
-                    <Button
-                      variant="dark"
-                      className="text"
-                      disabled
-                      onClick={handleEdit}
+                      <PhotoCamera />
+                    </IconButton>
+                  </label>
+                  <input
+                    accept="image/*"
+                    className={classes.input}
+                    id="contained-button-file"
+                    name="img"
+                    type="file"
+                    onChange={handleFile}
+                  />
+                  <label htmlFor="contained-button-file">
+                    <ButtonM
+                      variant="contained"
+                      color="primary"
+                      component="span"
+                      className="buttonP"
                     >
-                      Actualizar
-                    </Button>
-                  )}
-                </Col>
-              </Row>
-            </Col>
-          </RubberBand>
-        </Row>
-      )}
+                      Elegir otra imagen
+                    </ButtonM>
+                  </label>
+                  <Button
+                    variant="primary"
+                    onClick={handleSave}
+                    className="buttonP"
+                  >
+                    Guardar imagen
+                  </Button>
+                </Modal.Footer>
+              </Modal>
+              <Col
+                xs={8}
+                className="d-flex justify-content-start align-items-center mt-5"
+              >
+                {isReady() ? (
+                  <Button
+                    variant="dark"
+                    className="text buttonP"
+                    onClick={handleEdit}
+                  >
+                    Actualizar
+                  </Button>
+                ) : (
+                  <Button
+                    variant="dark"
+                    className="text"
+                    disabled
+                    onClick={handleEdit}
+                  >
+                    Actualizar
+                  </Button>
+                )}
+              </Col>
+            </Row>
+          </Col>
+        </RubberBand>
+      </Row>
     </Container>
   );
 };

@@ -9,7 +9,7 @@ const SuccessRegistration = ({ device }) => {
       <Row className="my-5 success-row flex-column justify-content-center align-items-center">
         <RubberBand>
           <Col xs={12} className="my-5">
-            <p className="text h1 text-dark my-5 text-center">
+            <p className="text h1 text-white my-5 text-center">
               Te hemos enviado un {device.email ? "correo" : "mensaje"} para
               poder verificar tu {device.email ? "correo" : "teléfono"}
             </p>
@@ -18,6 +18,18 @@ const SuccessRegistration = ({ device }) => {
             <Link to="/">
               <Button variant="dark" className="text">
                 Ir al inicio
+              </Button>
+            </Link>
+          </Col>
+          <Col xs={12} className="my-5">
+            <p className="text h1 text-white my-5 text-center">
+              ¿ Ya recibiste el código ?
+            </p>
+          </Col>
+          <Col xs={12} className="my-5">
+            <Link to="/verification">
+              <Button variant="dark" className="text">
+                Confirma tu cuenta
               </Button>
             </Link>
           </Col>

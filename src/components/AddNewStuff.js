@@ -63,8 +63,12 @@ const AddNewStuff = () => {
 
   const classes = useStyles();
 
-  const handleClose = () => {
+  const handleClose = () => setShow(false);
+
+  const handleSave = () => {
     setShow(false);
+
+    updateLoadingState(true);
 
     const lendService = new LendService();
 
@@ -76,6 +80,7 @@ const AddNewStuff = () => {
       updateNewStuffState(
         Object.assign({}, newStuffState, { img: res.data.secure_url })
       );
+      updateLoadingState(false);
     });
   };
 
@@ -322,7 +327,7 @@ const AddNewStuff = () => {
                         </label>
                         <Button
                           variant="primary"
-                          onClick={handleClose}
+                          onClick={handleSave}
                           className="buttonP"
                         >
                           Guardar imagen

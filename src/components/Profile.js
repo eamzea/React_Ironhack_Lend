@@ -251,6 +251,7 @@ const Profile = () => {
                         width="100px"
                         height="100px"
                         rounded
+                        className="img-stuff-profile"
                       />
                       <p className="text-white h2 titles">{e.name}</p>
                       <p className="h4 text-white titles">

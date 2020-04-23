@@ -13,7 +13,7 @@ const ModalDeleteStuff = ({ show, handleClose, src, handleDelete }) => {
           width="100px"
           height="100px"
           rounded
-          className="mx-3"
+          className="mx-3 img-stuff-profile"
         />
         <p className="titles mx-3">{src.name}</p>
         <p className="text mx-3">{src.available ? "Disponible" : "Préstamo"}</p>

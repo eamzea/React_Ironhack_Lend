@@ -298,6 +298,10 @@ body {
   border-bottom: 1px solid rgba(255, 255, 255, 0.5);
 }
 
+.img-stuff-profile {
+  object-fit: cover;
+}
+
 .span-available {
   border-bottom: 5px solid white;
 }

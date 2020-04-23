@@ -11,7 +11,7 @@ const SuccessRegistration = ({ device }) => {
           <Col xs={12} className="my-5">
             <p className="text h1 text-white my-5 text-center">
               Te hemos enviado un {device.email ? "correo" : "mensaje"} para
-              poder verificar tu {device.email ? "correo" : "teléfono"}
+              verificar tu cuenta
             </p>
           </Col>
           <Col xs={12} className="my-5">

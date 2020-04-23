@@ -89,7 +89,7 @@ const SignUp = () => {
   };
 
   const validateEmail = (e) => {
-    const info = e.target.value;
+    const info = e.target.value.toLowerCase();
     const lendService = new LendService();
 
     lendService.validateEmail(info).then((res) => {
@@ -107,7 +107,7 @@ const SignUp = () => {
   };
 
   const validateUsername = (e) => {
-    const info = e.target.value;
+    const info = e.target.value.toLowerCase();
     const lendService = new LendService();
 
     lendService.validateUsername(info).then((res) => {

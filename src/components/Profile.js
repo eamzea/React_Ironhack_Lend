@@ -68,6 +68,9 @@ const Profile = () => {
   const { user } = useContext(UserContext);
 
   const showBox = () => {
+    updateRecommendationState(
+      Object.assign({}, recommendationState, { name: user._id })
+    );
     updateBoxRecommendatioState(true);
   };
 
@@ -108,9 +111,7 @@ const Profile = () => {
   const sendRecom = () => {
     const lendService = new LendService();
 
-    updateRecommendationState(
-      Object.assign({}, recommendationState, { name: user._id })
-    );
+    updateLoadingState(true);
 
     lendService
       .sendRecommendation(recommendationState, userInfoState._id)
@@ -119,6 +120,7 @@ const Profile = () => {
         getProfileInfo();
         updateBoxRecommendatioState(false);
         updateRecommSentState(true);
+        updateLoadingState(false);
       });
   };
 
@@ -263,27 +265,28 @@ const Profile = () => {
                           </span>
                         )}
                       </p>
-                      {ownerState && e.available ? (
-                        <Button
-                          variant="warning"
-                          size="lg"
-                          name={e._id}
-                          onClick={toggleAvailable}
-                          className="buttonP"
-                        >
-                          Prestar
-                        </Button>
-                      ) : (
-                        <Button
-                          variant="success"
-                          size="lg"
-                          name={e._id}
-                          onClick={toggleAvailable}
-                          className="buttonP"
-                        >
-                          Devolver
-                        </Button>
-                      )}
+                      {ownerState &&
+                        (e.available ? (
+                          <Button
+                            variant="warning"
+                            size="lg"
+                            name={e._id}
+                            onClick={toggleAvailable}
+                            className="buttonP"
+                          >
+                            Prestar
+                          </Button>
+                        ) : (
+                          <Button
+                            variant="success"
+                            size="lg"
+                            name={e._id}
+                            onClick={toggleAvailable}
+                            className="buttonP"
+                          >
+                            Devolver
+                          </Button>
+                        ))}
                       {ownerState && (
                         <Button
                           variant="danger"

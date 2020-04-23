@@ -58,6 +58,15 @@ const Contact = () => {
   };
 
   const handleCheck = (e) => {
+    if (user) {
+      updateUserState(
+        Object.assign({}, userState, {
+          name: user.name,
+          email: user.email,
+          phone: user.phone,
+        })
+      );
+    }
     const check = e.target.checked;
     const stuff = e.target.value;
     updateStuffSelectedState([
@@ -119,7 +128,11 @@ const Contact = () => {
       totalPriceState.length > 1 &&
       userState.startDate !== userState.finalDate
     ) {
-      return true;
+      for (let i = 0; i < stuffSelectedState.length - 1; i++) {
+        if (stuffSelectedState[i].checked === true) {
+          return true;
+        }
+      }
     } else {
       return false;
     }

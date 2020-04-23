@@ -78,7 +78,7 @@ const EditProfile = () => {
 
     const uploadImg = new FormData();
 
-    uploadImg.append("profilePic", userState.profilePic);
+    uploadImg.append("img", userState.profilePic);
 
     lendService.uploadPhoto(uploadImg).then((res) => {
       updateUserState(

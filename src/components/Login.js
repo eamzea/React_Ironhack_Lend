@@ -6,7 +6,7 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import RubberBand from "react-reveal/RubberBand";
 import { withStyles } from "@material-ui/core/styles";
 import { TextField } from "@material-ui/core";
-import { AccountCircle, MailOutline, VpnKey } from "@material-ui/icons";
+import { MailOutline, VpnKey } from "@material-ui/icons";
 
 const CssTextField = withStyles({
   root: {

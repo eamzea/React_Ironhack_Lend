@@ -52,7 +52,7 @@ function App() {
           path="/edit-profile/:username"
           component={EditProfile}
         />
-        <Route path="/profile/:username" component={Profile} />
+        <Route exact path="/profile/:username" component={Profile} />
         <Route path="/results/:stuff" component={Results} />
         <Route path="/contact/:username" component={Contact} />
         <ProtectedRoute path="/add-new-stuff" component={AddNewStuff} />

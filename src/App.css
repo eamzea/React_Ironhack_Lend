@@ -17,6 +17,10 @@ button,
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
+.modal-loader .modal-dialog .modal-content {
+  border: none;
+}
+
 body {
   margin: 0;
 }
@@ -273,6 +277,7 @@ body {
 
 .profile-page {
   margin-top: 10vh;
+  min-height: 90vh;
 }
 
 .profile-row {

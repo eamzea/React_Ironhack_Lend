@@ -229,8 +229,9 @@ body {
   background-image: url("/images/verification-bg.png");
   background-size: cover;
   background-position: center;
-  margin-top: 9vh;
-  min-height: 90vh;
+  background-repeat: no-repeat;
+  margin-top: 8.5vh;
+  height: 90vh;
 }
 
 .failed-box {

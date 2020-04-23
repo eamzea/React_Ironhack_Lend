@@ -68,9 +68,11 @@ const Profile = () => {
   const { user } = useContext(UserContext);
 
   const showBox = () => {
-    updateRecommendationState(
-      Object.assign({}, recommendationState, { name: user._id })
-    );
+    if (user) {
+      updateRecommendationState(
+        Object.assign({}, recommendationState, { name: user._id })
+      );
+    }
     updateBoxRecommendatioState(true);
   };
 
@@ -354,7 +356,9 @@ const Profile = () => {
                         <Col xs={5} md={3} className="py-3 rate-profile">
                           <div className="profile-recommendation ">
                             <p className="text-white h3 titles">{e.username}</p>
-                            <p className="text-white h5 text">{e.details}</p>
+                            <p className="text-white h5 text text-center">
+                              {e.details}
+                            </p>
                             <p className="text-white h6 text text-center">
                               {e.date}
                             </p>
@@ -537,7 +541,7 @@ const Profile = () => {
           {!ownerState && (
             <Col xs={11} className="my-3">
               <Row className="p-3 justify-content-center align-items-center">
-                <Link to="/contact">
+                <Link to={`/contact/${username}`}>
                   <Button variant="dark" size="lg" className="buttonP">
                     Contactar
                   </Button>

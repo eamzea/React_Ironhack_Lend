@@ -52,6 +52,7 @@ const SignUp = () => {
   const [validationState, updateValidationState] = useState({
     email: true,
     username: true,
+    phone: true,
   });
 
   const [validationWayState, updateValidationWayState] = useState({});
@@ -122,6 +123,23 @@ const SignUp = () => {
         );
       }
     });
+  };
+
+  const validatePhone = (e) => {
+    const { name, value } = e.target;
+
+    const reg = new RegExp(/^[0-9]*$/);
+
+    if (reg.test(value)) {
+      updateUserState(Object.assign({}, userState, { [name]: value }));
+      updateValidationState(
+        Object.assign({}, validationState, { phone: true })
+      );
+    } else {
+      updateValidationState(
+        Object.assign({}, validationState, { phone: false })
+      );
+    }
   };
 
   const handleValidation = (e) => {
@@ -232,13 +250,25 @@ const SignUp = () => {
                         <PhoneIphoneOutlined />
                       </Grid>
                       <Grid item>
-                        <CssTextField
-                          id="input-with-icon-grid"
-                          label="Teléfono"
-                          className="text"
-                          name="phone"
-                          onChange={handleChange}
-                        />
+                        {validationState.phone ? (
+                          <CssTextField
+                            id="input-with-icon-grid"
+                            label="Teléfono"
+                            className="text"
+                            name="phone"
+                            onChange={validatePhone}
+                          />
+                        ) : (
+                          <CssTextField
+                            error
+                            id="input-with-icon-grid"
+                            label="Teléfono"
+                            className="text"
+                            name="phone"
+                            onChange={validatePhone}
+                            helperText="Ingresa solo números"
+                          />
+                        )}
                       </Grid>
                     </Grid>
                   </Col>

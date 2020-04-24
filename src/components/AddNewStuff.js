@@ -61,6 +61,11 @@ const AddNewStuff = () => {
 
   const [loadingState, updateLoadingState] = useState(false);
 
+  const [validatePriceState, updateValidatePriceState] = useState({
+    realPrice: true,
+    priceLend: true,
+  });
+
   const classes = useStyles();
 
   const handleClose = () => setShow(false);
@@ -102,6 +107,23 @@ const AddNewStuff = () => {
         Object.assign({}, newStuffState, { img: e.target.files[0] })
       );
       handleShow();
+    }
+  };
+
+  const validatePrice = (e) => {
+    const { name, value } = e.target;
+
+    const reg = new RegExp(/^[0-9]*$/);
+
+    if (reg.test(value)) {
+      updateNewStuffState(Object.assign({}, newStuffState, { [name]: value }));
+      updateValidatePriceState(
+        Object.assign({}, validatePriceState, { [name]: true })
+      );
+    } else {
+      updateValidatePriceState(
+        Object.assign({}, validatePriceState, { [name]: false })
+      );
     }
   };
 
@@ -210,13 +232,25 @@ const AddNewStuff = () => {
                         <MonetizationOn />
                       </Grid>
                       <Grid item>
-                        <CssTextField
-                          id="input-with-icon-grid"
-                          label="Precio Real"
-                          className="text"
-                          name="realPrice"
-                          onChange={handleChange}
-                        />
+                        {validatePriceState.realPrice ? (
+                          <CssTextField
+                            id="input-with-icon-grid"
+                            label="Precio Real"
+                            className="text"
+                            name="realPrice"
+                            onChange={validatePrice}
+                          />
+                        ) : (
+                          <CssTextField
+                            error
+                            id="input-with-icon-grid"
+                            label="Precio Real"
+                            className="text"
+                            name="realPrice"
+                            onChange={validatePrice}
+                            helperText="Ingresa solo números"
+                          />
+                        )}
                       </Grid>
                     </Grid>
                   </Col>
@@ -226,14 +260,25 @@ const AddNewStuff = () => {
                         <MonetizationOn />
                       </Grid>
                       <Grid item>
-                        <CssTextField
-                          id="input-with-icon-grid"
-                          label="Precio Préstamo"
-                          className="text"
-                          type="text"
-                          name="priceLend"
-                          onChange={handleChange}
-                        />
+                        {validatePriceState.priceLend ? (
+                          <CssTextField
+                            id="input-with-icon-grid"
+                            label="Precio Préstamo"
+                            className="text"
+                            name="priceLend"
+                            onChange={validatePrice}
+                          />
+                        ) : (
+                          <CssTextField
+                            error
+                            id="input-with-icon-grid"
+                            label="Precio Préstamo"
+                            className="text"
+                            name="priceLend"
+                            onChange={validatePrice}
+                            helperText="Ingresa solo números"
+                          />
+                        )}
                       </Grid>
                     </Grid>
                   </Col>

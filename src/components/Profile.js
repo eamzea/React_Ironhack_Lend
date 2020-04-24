@@ -164,7 +164,7 @@ const Profile = () => {
         <ModalLoader show={loadingState} />
       ) : (
         <Row className="justify-content-center align-items-center">
-          <Col xs={11} className="profile-row mt-5">
+          <Col xs={12} className="profile-main-row">
             {ownerState && !userInfoState.validatedProfile && (
               <Row className="profile-box-row p-2">
                 <div class="alert alert-danger" role="alert">
@@ -242,7 +242,7 @@ const Profile = () => {
           <Col xs={11} className="profile-row my-3">
             <Row className="profile-box-row p-3">
               <Col xs={11}>
-                <p className="text-white h2 titles my-3">Lista de Artículos</p>
+                <p className="text-dark h2 titles my-3">Lista de Artículos</p>
               </Col>
               {userInfoState.stuffs && userInfoState.stuffs.length > 0 ? (
                 ownerStuffState.map((e, i) => {
@@ -255,11 +255,11 @@ const Profile = () => {
                         rounded
                         className="img-stuff-profile"
                       />
-                      <p className="text-white h2 titles">{e.name}</p>
-                      <p className="h4 text-white titles">
+                      <p className="text-dark h2 titles">{e.name}</p>
+                      <p className="h4 text-dark titles">
                         Estatus :
                         {e.available ? (
-                          <span className="text-white rounded p-3 span-available">
+                          <span className="text-dark rounded p-3 span-available">
                             Disponible
                           </span>
                         ) : (
@@ -306,7 +306,7 @@ const Profile = () => {
                 })
               ) : (
                 <Col xs={11} className="profile-list py-3">
-                  <p className="titles text-white h5">Aún no hay artículos</p>
+                  <p className="titles text-dark h5">Aún no hay artículos</p>
                 </Col>
               )}
               {deleteModalState && (
@@ -345,7 +345,7 @@ const Profile = () => {
           <Col xs={11} className="profile-row my-3">
             <Row className="justify-content-around align-items-center p-3">
               <Col xs={11}>
-                <p className="text-white h2 titles my-3">Recomendaciones</p>
+                <p className="text-dark h2 titles my-3">Recomendaciones</p>
               </Col>
               <Col xs={11}>
                 <Row className="justify-content-around align-items-center flex-wrap">
@@ -353,16 +353,20 @@ const Profile = () => {
                   userInfoState.recommendations.length > 0 ? (
                     ownerRecommendationState.map((e) => {
                       return (
-                        <Col xs={5} md={3} className="py-3 rate-profile">
+                        <Col
+                          xs={11}
+                          md={3}
+                          className="py-3 rate-profile rounded border border-dark"
+                        >
                           <div className="profile-recommendation ">
-                            <p className="text-white h3 titles">{e.username}</p>
-                            <p className="text-white h5 text text-center">
+                            <p className="text-dark h4 titles">{e.username}</p>
+                            <p className="text-dark h6 text text-center">
                               {e.details}
                             </p>
-                            <p className="text-white h6 text text-center">
+                            <p className="text-dark text text-center">
                               {e.date}
                             </p>
-                            <p className="text-white h5 text">
+                            <p className="text-dark h6 text text-center">
                               Calificación : {e.rate}
                             </p>
                           </div>
@@ -371,7 +375,7 @@ const Profile = () => {
                     })
                   ) : (
                     <Col xs={11} className="profile-list py-3">
-                      <p className="titles text-white h5">
+                      <p className="titles text-dark h5">
                         Aún no hay Recomendaciones
                       </p>
                     </Col>
@@ -385,7 +389,7 @@ const Profile = () => {
                       {user.username !== userInfoState.username && (
                         <>
                           <Col xs={11} className="my-3 ">
-                            <p className="titles text-white h3 text-center">
+                            <p className="titles text-dark h3 text-center">
                               Agrega tu recomendación
                             </p>
                           </Col>
@@ -395,7 +399,7 @@ const Profile = () => {
                           >
                             <Form.Row className="contact-form justify-content-around">
                               <Col className="contact-col">
-                                <Form.Label className="text text-white">
+                                <Form.Label className="text text-dark">
                                   Nombre
                                 </Form.Label>
                                 <Form.Control
@@ -407,7 +411,7 @@ const Profile = () => {
                                 />
                               </Col>
                               <Col className="contact-col">
-                                <Form.Label className="text text-white">
+                                <Form.Label className="text text-dark">
                                   Descripción
                                 </Form.Label>
                                 <Form.Control
@@ -420,7 +424,7 @@ const Profile = () => {
                                 />
                               </Col>
                               <Col className="contact-col">
-                                <Form.Label className="text text-white">
+                                <Form.Label className="text text-dark">
                                   Calificación
                                 </Form.Label>
                                 <Form.Control
@@ -480,7 +484,7 @@ const Profile = () => {
                       xs={11}
                       className="my-3 d-flex justify-content-center align-items-center"
                     >
-                      <p className="titles text-white h3 text-center">
+                      <p className="titles text-dark h3 text-center">
                         Inicia sesión para dejar tus comentarios
                       </p>
                     </Col>
@@ -497,7 +501,7 @@ const Profile = () => {
                               xs={11}
                               className="my-3 d-flex justify-content-center align-items-center"
                             >
-                              <p className="titles text-white h3 text-center">
+                              <p className="titles text-dark h3 text-center">
                                 Tu recomendación ha sido agregada
                               </p>
                             </Col>

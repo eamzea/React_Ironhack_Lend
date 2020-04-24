@@ -186,8 +186,8 @@ const Contact = () => {
 
   return (
     <Container fluid className="contact-page">
-      <Row className="justify-content-around align-items-start">
-        <Col md={8} xs={11}>
+      <Row className="justify-content-around align-items-start contact-main-row">
+        <Col md={8} xs={12}>
           <Row>
             <Col xs={12} className="contact-cols p-3 my-3">
               <p className="titles text-white h5">Información sobre ti</p>
@@ -331,8 +331,8 @@ const Contact = () => {
           </p>
         </Col>
       </Row>
-      <Row className="justify-content-around align-items-center my-3">
-        <Col xs={11} className="contact-important-cols p-5">
+      <Row className="justify-content-around align-items-center">
+        <Col xs={12} className="contact-important-cols p-5">
           <p className="titles h3 text-white text-center">
             El costo de los artículos y el tiempo de préstamo dependen del
             propietario por lo tanto puede variar a la información mostrada.

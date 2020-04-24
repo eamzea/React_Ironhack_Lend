@@ -148,6 +148,14 @@ const SignUp = () => {
     updateValidationWayState({ [value]: checked });
   };
 
+  const handlePassword = () => {
+    if (userState.password === userState.confirmPassword) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   const handleRegister = () => {
     const lendService = new LendService();
 
@@ -278,14 +286,27 @@ const SignUp = () => {
                         <VpnKey />
                       </Grid>
                       <Grid item>
-                        <CssTextField
-                          id="input-with-icon-grid"
-                          label="Contraseña"
-                          className="text"
-                          type="password"
-                          name="password"
-                          onChange={handleChange}
-                        />
+                        {handlePassword() ? (
+                          <CssTextField
+                            id="input-with-icon-grid"
+                            label="Contraseña"
+                            className="text"
+                            type="password"
+                            name="password"
+                            onChange={handleChange}
+                          />
+                        ) : (
+                          <CssTextField
+                            error
+                            id="input-with-icon-grid"
+                            label="Contraseña"
+                            className="text"
+                            type="password"
+                            name="password"
+                            onChange={handleChange}
+                            helperText="Las contraseñas no coinciden"
+                          />
+                        )}
                       </Grid>
                     </Grid>
                   </Col>
@@ -295,14 +316,27 @@ const SignUp = () => {
                         <VpnKey />
                       </Grid>
                       <Grid item>
-                        <CssTextField
-                          id="input-with-icon-grid"
-                          label="Confirma Contraseña"
-                          className="text"
-                          type="password"
-                          name="confirmPassword"
-                          onChange={handleChange}
-                        />
+                        {handlePassword() ? (
+                          <CssTextField
+                            id="input-with-icon-grid"
+                            label="Confirma Contraseña"
+                            className="text"
+                            type="password"
+                            name="confirmPassword"
+                            onChange={handleChange}
+                          />
+                        ) : (
+                          <CssTextField
+                            error
+                            id="input-with-icon-grid"
+                            label="Confirma Contraseña"
+                            className="text"
+                            type="password"
+                            name="confirmPassword"
+                            onChange={handleChange}
+                            helperText="Las contraseñas no coinciden"
+                          />
+                        )}
                       </Grid>
                     </Grid>
                   </Col>

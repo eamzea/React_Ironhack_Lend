@@ -408,6 +408,7 @@ const Profile = () => {
                                   type="text"
                                   value={user.name}
                                   className="text"
+                                  className="border border-dark"
                                 />
                               </Col>
                               <Col className="contact-col">
@@ -415,12 +416,15 @@ const Profile = () => {
                                   Descripción
                                 </Form.Label>
                                 <Form.Control
+                                  as="textarea"
+                                  rows="3"
                                   name="details"
                                   size="lg"
                                   type="text"
                                   placeholder="Excelentes artículos"
                                   className="text"
                                   onChange={handleChange}
+                                  className="border border-dark"
                                 />
                               </Col>
                               <Col className="contact-col">
@@ -432,6 +436,7 @@ const Profile = () => {
                                   multiple
                                   onChange={handleChange}
                                   name="rate"
+                                  className="border border-dark"
                                 >
                                   <option value="1" className="text">
                                     1

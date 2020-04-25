@@ -327,6 +327,10 @@ body {
   align-items: center;
 }
 
+.contact-form .contact-col textarea {
+  resize: none;
+}
+
 @media (max-width: 768px) {
   .profile-page {
     margin-top: 6vh;
